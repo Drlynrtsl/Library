@@ -10,6 +10,8 @@ import {
     DepartmentDtoPagedResultDto
   } from '@shared/service-proxies/service-proxies';
   import { finalize } from 'rxjs/operators';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { CreateDepartmentModalComponent } from './create-department-modal/create-department-modal.component';
 
   class PagedDepartmentsRequestDto extends PagedRequestDto {
     keyword: string;
@@ -23,12 +25,14 @@ import {
 
   export class DepartmentsComponent extends PagedListingComponentBase<DepartmentDto> {
     departments: DepartmentDto[] = [];
+    id:number;
     keyword = '';
     isActive: boolean | null;
     advancedFiltersVisible = false;
     constructor(
         injector: Injector,
-        private _departmentService: DepartmentServiceProxy
+        private _departmentService: DepartmentServiceProxy,
+        private _modalService: BsModalService
       ) {
         super(injector);
       }
@@ -71,5 +75,38 @@ import {
             }
           }
         );
+      }
+      createDepartment(){
+        this.showCreateOrEditDeptmodal();
+      }
+      editDepartment(id){
+        this.showCreateOrEditDeptmodal(id);
+      }
+
+
+      private showCreateOrEditDeptmodal(id?: number): void {
+        let createOrEditDeptModal: BsModalRef;
+        if (!id) {
+          createOrEditDeptModal = this._modalService.show(
+            CreateDepartmentModalComponent,
+            {
+              class: 'modal-lg',
+            }
+          );
+        } else {
+          createOrEditDeptModal = this._modalService.show(
+            CreateDepartmentModalComponent,
+            {
+              class: 'modal-lg',
+              initialState: {
+                id: id,
+              },
+            }
+          );
+        }
+    
+        createOrEditDeptModal.content.onSave.subscribe(() => {
+          this.refresh();
+        });
       }
   }

@@ -39,7 +39,7 @@ import { SidebarLogoComponent } from './layout/sidebar-logo.component';
 import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component';
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { DepartmentsComponent } from '@app/departments/departments.component';
-import { CreateDepartmentModalComponent } from '@app/departments/create-department/create-department-modal.component';
+import { CreateDepartmentModalComponent } from '@app/departments/create-department-modal/create-department-modal.component';
 import { DepartmentServiceProxy } from '@shared/service-proxies/service-proxies';
 
 @NgModule({
