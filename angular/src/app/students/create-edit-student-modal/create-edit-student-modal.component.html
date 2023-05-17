@@ -1,0 +1,34 @@
+<form class="form-horizontal" 
+autocomplete="off" 
+#createStudentModal="ngForm" 
+(ngSubmit)="save()">
+    <abp-modal-header [title]="'CreateNewStudent' | localize" 
+    (onCloseClick)="bsModalRef.hide()">
+    </abp-modal-header>
+    <div class="modal-body">
+        <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="studentName">
+                {{ "Name" | localize }}
+            </label>
+            <div class="col-md-9">
+                <input type="text" 
+                class="form-control" 
+                name="studentName" 
+                id="studentName" 
+                required 
+                maxlength="32"                    
+                [(ngModel)]="student.studentName" 
+                #nameModel="ngModel" 
+                #nameEl />
+                <abp-validation-summary 
+                [control]="nameModel" 
+                [controlEl]="nameEl"></abp-validation-summary>
+            </div>
+        </div>
+    </div>
+    <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveDisabled]="!createStudentModal.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>

@@ -1,4 +1,4 @@
-import { Component, Injector, NgModule } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import {
     PagedListingComponentBase,
@@ -11,7 +11,7 @@ import {
   } from '@shared/service-proxies/service-proxies';
   import { finalize } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { CreateDepartmentModalComponent } from './create-department-modal/create-department-modal.component';
+import { CreateDepartmentModalComponent } from './create-edit-department-modal/create-edit-department-modal.component';
 
   class PagedDepartmentsRequestDto extends PagedRequestDto {
     keyword: string;
@@ -64,7 +64,7 @@ import { CreateDepartmentModalComponent } from './create-department-modal/create
 
       protected delete(department: DepartmentDto): void {
         abp.message.confirm(
-          this.l('UserDeleteWarningMessage', department.name),
+          this.l('DepartmentDeleteWarningMessage', department.name),
           undefined,
           (result: boolean) => {
             if (result) {

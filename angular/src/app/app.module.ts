@@ -39,8 +39,9 @@ import { SidebarLogoComponent } from './layout/sidebar-logo.component';
 import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component';
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { DepartmentsComponent } from '@app/departments/departments.component';
-import { CreateDepartmentModalComponent } from '@app/departments/create-department-modal/create-department-modal.component';
-import { DepartmentServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CreateDepartmentModalComponent } from '@app/departments/create-edit-department-modal/create-edit-department-modal.component';
+import { DepartmentServiceProxy, StudentServiceProxy } from '@shared/service-proxies/service-proxies';
+import { StudentsComponent } from '@app/students/students.component';
 
 @NgModule({
     declarations: [
@@ -72,7 +73,8 @@ import { DepartmentServiceProxy } from '@shared/service-proxies/service-proxies'
         SidebarUserPanelComponent,
         SidebarMenuComponent,
         DepartmentsComponent,
-        CreateDepartmentModalComponent
+        CreateDepartmentModalComponent,
+        StudentsComponent
     ],
     imports: [
         CommonModule,
@@ -89,6 +91,8 @@ import { DepartmentServiceProxy } from '@shared/service-proxies/service-proxies'
         SharedModule,
         NgxPaginationModule,
     ],
-    providers: [DepartmentServiceProxy]
+    providers: [
+        DepartmentServiceProxy,
+        StudentServiceProxy]
 })
 export class AppModule {}

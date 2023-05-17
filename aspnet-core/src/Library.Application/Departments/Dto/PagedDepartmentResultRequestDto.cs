@@ -9,5 +9,6 @@ namespace Library.Departments.Dto
 {
     public class PagedDepartmentResultRequestDto : PagedResultRequestDto
     {
+        public string Keyword { get; set; }
     }
 }
