@@ -42,6 +42,7 @@ import { DepartmentsComponent } from '@app/departments/departments.component';
 import { CreateDepartmentModalComponent } from '@app/departments/create-edit-department-modal/create-edit-department-modal.component';
 import { DepartmentServiceProxy, StudentServiceProxy } from '@shared/service-proxies/service-proxies';
 import { StudentsComponent } from '@app/students/students.component';
+import { CreateStudentModalComponent } from './students/create-edit-student-modal/create-edit-student-modal.component';
 
 @NgModule({
     declarations: [
@@ -74,7 +75,8 @@ import { StudentsComponent } from '@app/students/students.component';
         SidebarMenuComponent,
         DepartmentsComponent,
         CreateDepartmentModalComponent,
-        StudentsComponent
+        StudentsComponent,
+        CreateStudentModalComponent
     ],
     imports: [
         CommonModule,

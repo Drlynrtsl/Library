@@ -19,6 +19,5 @@ namespace Library.Students.Dto
         [Required]
         public string StudentEmail { get; set; }
         public int DepartmentId { get; set; }
-        public Department Department { get; set; }
     }
 }

@@ -210,6 +210,7 @@ export class DepartmentServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+  getAllDepartments: any;
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
@@ -2851,7 +2852,6 @@ export class CreateStudentDto implements ICreateStudentDto {
     studentContactNumber: string;
     studentEmail: string;
     departmentId: number;
-    department: Department;
 
     constructor(data?: ICreateStudentDto) {
         if (data) {
@@ -2868,7 +2868,6 @@ export class CreateStudentDto implements ICreateStudentDto {
             this.studentContactNumber = _data["studentContactNumber"];
             this.studentEmail = _data["studentEmail"];
             this.departmentId = _data["departmentId"];
-            this.department = _data["department"] ? Department.fromJS(_data["department"]) : <any>undefined;
         }
     }
 
@@ -2885,7 +2884,6 @@ export class CreateStudentDto implements ICreateStudentDto {
         data["studentContactNumber"] = this.studentContactNumber;
         data["studentEmail"] = this.studentEmail;
         data["departmentId"] = this.departmentId;
-        data["department"] = this.department ? this.department.toJSON() : <any>undefined;
         return data;
     }
 
@@ -2902,7 +2900,6 @@ export interface ICreateStudentDto {
     studentContactNumber: string;
     studentEmail: string;
     departmentId: number;
-    department: Department;
 }
 
 export class CreateTenantDto implements ICreateTenantDto {
@@ -3037,81 +3034,6 @@ export interface ICreateUserDto {
     isActive: boolean;
     roleNames: string[] | undefined;
     password: string;
-}
-
-export class Department implements IDepartment {
-    id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    name: string | undefined;
-
-    constructor(data?: IDepartment) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = _data["creatorUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = _data["lastModifierUserId"];
-            this.isDeleted = _data["isDeleted"];
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
-            this.name = _data["name"];
-        }
-    }
-
-    static fromJS(data: any): Department {
-        data = typeof data === 'object' ? data : {};
-        let result = new Department();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["name"] = this.name;
-        return data;
-    }
-
-    clone(): Department {
-        const json = this.toJSON();
-        let result = new Department();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IDepartment {
-    id: number;
-    creationTime: moment.Moment;
-    creatorUserId: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    isDeleted: boolean;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    name: string | undefined;
 }
 
 export class DepartmentDto implements IDepartmentDto {
@@ -4290,7 +4212,7 @@ export class StudentDto implements IStudentDto {
     studentContactNumber: string;
     studentEmail: string;
     departmentId: number;
-    department: Department;
+    department: DepartmentDto;
 
     constructor(data?: IStudentDto) {
         if (data) {
@@ -4308,7 +4230,7 @@ export class StudentDto implements IStudentDto {
             this.studentContactNumber = _data["studentContactNumber"];
             this.studentEmail = _data["studentEmail"];
             this.departmentId = _data["departmentId"];
-            this.department = _data["department"] ? Department.fromJS(_data["department"]) : <any>undefined;
+            this.department = _data["department"] ? DepartmentDto.fromJS(_data["department"]) : <any>undefined;
         }
     }
 
@@ -4344,7 +4266,7 @@ export interface IStudentDto {
     studentContactNumber: string;
     studentEmail: string;
     departmentId: number;
-    department: Department;
+    department: DepartmentDto;
 }
 
 export class StudentDtoPagedResultDto implements IStudentDtoPagedResultDto {

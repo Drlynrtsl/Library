@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
-import { StudentDto, StudentServiceProxy } from '@shared/service-proxies/service-proxies';
+import { DepartmentDto, DepartmentServiceProxy, StudentDto, StudentServiceProxy } from '@shared/service-proxies/service-proxies';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -11,12 +11,18 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   export class CreateStudentModalComponent extends AppComponentBase implements OnInit{
     saving = false;
     student: StudentDto = new StudentDto();
+    departments: DepartmentDto[] = [];
+    selected = "----"
     id:number = 0;
+    selectedDepartment = 0;
+    checkedPermissionsMap: { [key: string]: boolean } = {};
     @Output() onSave = new EventEmitter<any>();
+ 
     constructor(
       injector: Injector,
       public bsModalRef: BsModalRef,
-      private _studentService: StudentServiceProxy
+      private _studentService: StudentServiceProxy,
+      private _departmentService : DepartmentServiceProxy
     )
     {
       super(injector);
@@ -28,7 +34,12 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
         this.student = res;
       })
     }
+    this. _departmentService.getAllDepartments().subscribe((res) =>{
+      this.student.department = res;
+    })
   }
+
+
   save(){
     this.saving = true;
     if(this.id != 0){

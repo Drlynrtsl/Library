@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
+using Library.Departments.Dto;
 using Library.Entities;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,6 @@ namespace Library.Students.Dto
         [Required]
         public string StudentEmail { get; set; }
         public int DepartmentId { get; set; }
-        public Department Department { get; set; }
+        public DepartmentDto Department { get; set; }
     }
 }

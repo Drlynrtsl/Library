@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services;
+using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using Library.Departments.Dto;
 using Library.Entities;
@@ -17,5 +18,11 @@ namespace Library.Departments
         {
             _repository = repository;
         }
+
+        public override Task<PagedResultDto<DepartmentDto>> GetAllAsync(PagedDepartmentResultRequestDto input)
+        {
+            return base.GetAllAsync(input);
+        }
+        
     }
 }
