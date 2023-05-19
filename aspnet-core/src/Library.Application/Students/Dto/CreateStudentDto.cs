@@ -18,6 +18,7 @@ namespace Library.Students.Dto
         public string StudentContactNumber { get; set; }
         [Required]
         public string StudentEmail { get; set; }
+        [Required]
         public int DepartmentId { get; set; }
     }
 }

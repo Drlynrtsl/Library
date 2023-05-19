@@ -76,7 +76,7 @@ autocomplete="off"
                 [ngModel]="selectedDepartment"     
                 (ngModelChange)="selectedDepartment = $event.target.value"           
                 >
-                <option *ngFor="let department of departments; let i = index"
+                <option *ngFor="let department of departments"
                 [ngValue]="department.id">{{department.name}}</option>
                 </select>
             </div>            

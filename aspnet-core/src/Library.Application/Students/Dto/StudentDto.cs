@@ -15,11 +15,8 @@ namespace Library.Students.Dto
     [AutoMapFrom(typeof(Student))]
     public class StudentDto : EntityDto<int>
     {
-        [Required]
         public string StudentName { get; set; }
-        [Required]
         public string StudentContactNumber { get; set; }
-        [Required]
         public string StudentEmail { get; set; }
         public int DepartmentId { get; set; }
         public DepartmentDto Department { get; set; }

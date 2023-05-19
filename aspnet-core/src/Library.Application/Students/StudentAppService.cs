@@ -15,19 +15,10 @@ namespace Library.Students
     public class StudentAppService : AsyncCrudAppService<Student, StudentDto, int, PagedStudentResultRequestDto, CreateStudentDto, StudentDto>, IStudentAppService
     {
         private readonly IRepository<Student, int> _repository;
-        private readonly IRepository<Department, int> _departmentRepository;
-        public StudentAppService(IRepository<Student, int> repository, IRepository<Department, int> departmentRepository) : base(repository)
+        public StudentAppService(IRepository<Student, int> repository) : base(repository)
         {
             _repository = repository;
-            _departmentRepository = departmentRepository;
         }
-
-        public async Task<List<DepartmentDto>> GetAllDepartments()
-        {
-            var query = await _departmentRepository.GetAll()
-                .Select(x => ObjectMapper.Map<DepartmentDto>(x))
-                .ToListAsync();
-            return query;
-        }
+        
     }
 }

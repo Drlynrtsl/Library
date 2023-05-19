@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
-import { DepartmentDto, DepartmentServiceProxy, StudentDto, StudentServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CreateStudentDto, DepartmentDto, DepartmentServiceProxy, StudentDto, StudentServiceProxy } from '@shared/service-proxies/service-proxies';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -12,10 +12,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
     saving = false;
     student: StudentDto = new StudentDto();
     departments: DepartmentDto[] = [];
-    selected = "----"
     id:number = 0;
-    selectedDepartment = 0;
-    checkedPermissionsMap: { [key: string]: boolean } = {};
+    selectedDepartment : number = null;
     @Output() onSave = new EventEmitter<any>();
  
     constructor(
@@ -32,16 +30,22 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
     if(this.id){
       this. _studentService.get(this.id).subscribe((res) =>{
         this.student = res;
+        this.selectedDepartment = this.student.departmentId;
       })
     }
     this. _departmentService.getAllDepartments().subscribe((res) =>{
-      this.student.department = res;
-    })
+      this.departments = res;
+    });
   }
 
 
   save(){
     this.saving = true;
+    const selectedDepartment = this.departments.find(d => d.id === this.selectedDepartment);
+    if(selectedDepartment){
+      this.student.departmentId = selectedDepartment.id;
+      this.student.department = selectedDepartment;
+    }
     if(this.id != 0){
       this. _studentService.update(this.student).subscribe((res) => {
         this.notify.info(this.l('SavedSuccessfully'));

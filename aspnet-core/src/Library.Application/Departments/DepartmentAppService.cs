@@ -3,6 +3,7 @@ using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using Library.Departments.Dto;
 using Library.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,11 @@ namespace Library.Departments
         {
             return base.GetAllAsync(input);
         }
-        
+
+        public async Task<List<DepartmentDto>> GetAllDepartments()
+        {
+            var query = await _repository.GetAllListAsync();
+            return ObjectMapper.Map<List<DepartmentDto>>(query);
+        }
     }
 }
