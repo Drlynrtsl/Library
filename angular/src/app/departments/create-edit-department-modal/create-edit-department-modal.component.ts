@@ -7,7 +7,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
     selector: 'create-department-modal',
     templateUrl: './create-edit-department-modal.component.html'
   })
-export class CreateDepartmentModalComponent extends AppComponentBase implements OnInit{
+export class CreateEditDepartmentModalComponent extends AppComponentBase implements OnInit{
   saving = false;
   department: DepartmentDto = new DepartmentDto();
   id:number = 0;

@@ -18,5 +18,6 @@ namespace Library.EntityFrameworkCore
 
         public DbSet<Department> Departments { get; set; }
         public DbSet<Student> Students { get; set; }
+        public DbSet<BookCategory> BookCategories { get; set; }
     }
 }

@@ -39,10 +39,12 @@ import { SidebarLogoComponent } from './layout/sidebar-logo.component';
 import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component';
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { DepartmentsComponent } from '@app/departments/departments.component';
-import { CreateDepartmentModalComponent } from '@app/departments/create-edit-department-modal/create-edit-department-modal.component';
-import { DepartmentServiceProxy, StudentServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CreateEditDepartmentModalComponent } from '@app/departments/create-edit-department-modal/create-edit-department-modal.component';
+import { BookCategoryServiceProxy, DepartmentServiceProxy, StudentServiceProxy } from '@shared/service-proxies/service-proxies';
 import { StudentsComponent } from '@app/students/students.component';
-import { CreateStudentModalComponent } from './students/create-edit-student-modal/create-edit-student-modal.component';
+import { CreateEditStudentModalComponent } from './students/create-edit-student-modal/create-edit-student-modal.component';
+import { BookCategoriesComponent } from '@app/bookcategories/bookcategories.component';
+import { CreateEditBookCategoryModalComponent } from './bookcategories/create-edit-bookcategory-modal/create-edit-bookcategory-modal.component';
 
 @NgModule({
     declarations: [
@@ -74,9 +76,11 @@ import { CreateStudentModalComponent } from './students/create-edit-student-moda
         SidebarUserPanelComponent,
         SidebarMenuComponent,
         DepartmentsComponent,
-        CreateDepartmentModalComponent,
+        CreateEditDepartmentModalComponent,
         StudentsComponent,
-        CreateStudentModalComponent
+        CreateEditStudentModalComponent,
+        BookCategoriesComponent,
+        CreateEditBookCategoryModalComponent
     ],
     imports: [
         CommonModule,
@@ -95,6 +99,7 @@ import { CreateStudentModalComponent } from './students/create-edit-student-moda
     ],
     providers: [
         DepartmentServiceProxy,
-        StudentServiceProxy]
+        StudentServiceProxy,
+        BookCategoryServiceProxy]
 })
 export class AppModule {}

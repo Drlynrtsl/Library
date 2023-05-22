@@ -13,7 +13,7 @@ import {
 } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { CreateStudentModalComponent } from './create-edit-student-modal/create-edit-student-modal.component';
+import { CreateEditStudentModalComponent } from './create-edit-student-modal/create-edit-student-modal.component';
 
 class PagedStudentsRequestDto extends PagedRequestDto {
   keyword: string;
@@ -29,8 +29,7 @@ export class StudentsComponent extends PagedListingComponentBase<StudentDto> {
   id: number;
   keyword = '';
   isActive: boolean | null;
-  advancedFiltersVisible = false;
-  departments: DepartmentDto[] = []; // Added departments property
+  departments: DepartmentDto[] = [];
 
   constructor(
     injector: Injector,
@@ -50,7 +49,10 @@ export class StudentsComponent extends PagedListingComponentBase<StudentDto> {
     request.isActive = this.isActive;
 
     this._studentService
-      .getAll(request.keyword, request.skipCount, request.maxResultCount)
+      .getAll(
+        request.keyword, 
+        request.skipCount, 
+        request.maxResultCount)
       .pipe(
         finalize(() => {
           finishedCallback();
@@ -94,11 +96,11 @@ export class StudentsComponent extends PagedListingComponentBase<StudentDto> {
   private showCreateOrEditStudentmodal(id?: number): void {
     let createOrEditStudentModal: BsModalRef;
     if (!id) {
-      createOrEditStudentModal = this._modalService.show(CreateStudentModalComponent, {
+      createOrEditStudentModal = this._modalService.show(CreateEditStudentModalComponent, {
         class: 'modal-lg',
       });
     } else {
-      createOrEditStudentModal = this._modalService.show(CreateStudentModalComponent, {
+      createOrEditStudentModal = this._modalService.show(CreateEditStudentModalComponent, {
         class: 'modal-lg',
         initialState: {
           id: id,

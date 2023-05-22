@@ -10,6 +10,7 @@ import { RolesComponent } from 'app/roles/roles.component';
 import { DepartmentsComponent } from '@app/departments/departments.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { StudentsComponent } from './students/students.component';
+import { BookCategoriesComponent } from './bookcategories/bookcategories.component';
 
 @NgModule({
     imports: [
@@ -24,6 +25,7 @@ import { StudentsComponent } from './students/students.component';
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
                     { path: 'departments', component: DepartmentsComponent, canActivate: [AppRouteGuard] },
                     { path: 'students', component: StudentsComponent, canActivate: [AppRouteGuard] },
+                    { path: 'bookcategories', component: BookCategoriesComponent, canActivate: [AppRouteGuard] },
                     { path: 'about', component: AboutComponent, canActivate: [AppRouteGuard] },
                     { path: 'update-password', component: ChangePasswordComponent, canActivate: [AppRouteGuard] }
                 ]
