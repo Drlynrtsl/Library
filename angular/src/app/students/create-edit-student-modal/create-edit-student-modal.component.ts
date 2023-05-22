@@ -8,65 +8,58 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
     templateUrl: './create-edit-student-modal.component.html'
   })
 
-  export class CreateStudentModalComponent extends AppComponentBase implements OnInit{
+  export class CreateStudentModalComponent extends AppComponentBase implements OnInit {
     saving = false;
     student: StudentDto = new StudentDto();
     departments: DepartmentDto[] = [];
-    id:number = 0;
-    selectedDepartment : number = null;
+    id: number = 0;
+    selectedDepartment: number = null;
+  
     @Output() onSave = new EventEmitter<any>();
- 
+  
     constructor(
       injector: Injector,
       public bsModalRef: BsModalRef,
       private _studentService: StudentServiceProxy,
-      private _departmentService : DepartmentServiceProxy
-    )
-    {
+      private _departmentService: DepartmentServiceProxy
+    ) {
       super(injector);
     }
-
-  ngOnInit(): void {
-    if(this.id){
-      this. _studentService.get(this.id).subscribe((res) =>{
-        this.student = res;
-        this.selectedDepartment = this.student.departmentId;
-      })
-    }
-    this. _departmentService.getAllDepartments().subscribe((res) =>{
-      this.departments = res;
-    });
-  }
-
-
-  save(){
-    this.saving = true;
-    const selectedDepartment = this.departments.find(d => d.id === this.selectedDepartment);
-    if(selectedDepartment){
-      this.student.departmentId = selectedDepartment.id;
-      this.student.department = selectedDepartment;
-    }
-    if(this.id != 0){
-      this. _studentService.update(this.student).subscribe((res) => {
-        this.notify.info(this.l('SavedSuccessfully'));
-        this.bsModalRef.hide();
-        this.onSave.emit();
-      },
-      () => {
-        this.saving = false;
+  
+    ngOnInit(): void {
+      if (this.id) {
+        this._studentService.get(this.id).subscribe((res) => {
+          this.student = res;
+          this.selectedDepartment = this.student.departmentId;
+        });
       }
-      );
-    }else{
-      this. _studentService.create(this.student).subscribe((res) => {
-        this.notify.info(this.l('SavedSuccessfully'));
-        this.bsModalRef.hide();
-        this.onSave.emit();
-      },
-      () => {
-        this.saving = false;
-      }
-      );
+      this._departmentService.getAllDepartments().subscribe((res) => {
+        this.departments = res;
+      });
     }
+  
+    save() {
+      this.saving = true;
+      this.student.departmentId = this.selectedDepartment;
+      if (this.id !== 0) {
+        this._studentService.update(this.student).subscribe(() => {
+          this.notify.info(this.l('SavedSuccessfully'));
+          this.bsModalRef.hide();
+          this.onSave.emit();
+        },
+        () => {
+          this.saving = false;
+        });
+      } else {
+        this._studentService.create(this.student).subscribe(() => {
+          this.notify.info(this.l('SavedSuccessfully'));
+          this.bsModalRef.hide();
+          this.onSave.emit();
+        },
+        () => {
+          this.saving = false;
+        });
+      }
+    }
+    
   }
-
-}
