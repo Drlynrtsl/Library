@@ -12,8 +12,8 @@ import {
   DepartmentServiceProxy,
 } from "@shared/service-proxies/service-proxies";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import { finalize } from "rxjs";
 import { CreateEditBookCategoryModalComponent } from "./create-edit-bookcategory-modal/create-edit-bookcategory-modal.component";
+import { finalize } from "rxjs/operators";
 
 class PagedBookCategoriesRequestDto extends PagedRequestDto {
   keyword: string;
@@ -22,7 +22,7 @@ class PagedBookCategoriesRequestDto extends PagedRequestDto {
 
 @Component({
   templateUrl: "./bookcategories.component.html",
-  animations: [appModuleAnimation()],
+  animations: [appModuleAnimation()]
 })
 export class BookCategoriesComponent extends PagedListingComponentBase<BookCategoryDto> {
   bookcategories: BookCategoryDto[] = [];

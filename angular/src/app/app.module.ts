@@ -40,11 +40,13 @@ import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { DepartmentsComponent } from '@app/departments/departments.component';
 import { CreateEditDepartmentModalComponent } from '@app/departments/create-edit-department-modal/create-edit-department-modal.component';
-import { BookCategoryServiceProxy, DepartmentServiceProxy, StudentServiceProxy } from '@shared/service-proxies/service-proxies';
+import { BookCategoryServiceProxy, BookServiceProxy, DepartmentServiceProxy, StudentServiceProxy } from '@shared/service-proxies/service-proxies';
 import { StudentsComponent } from '@app/students/students.component';
 import { CreateEditStudentModalComponent } from './students/create-edit-student-modal/create-edit-student-modal.component';
 import { BookCategoriesComponent } from '@app/bookcategories/bookcategories.component';
 import { CreateEditBookCategoryModalComponent } from './bookcategories/create-edit-bookcategory-modal/create-edit-bookcategory-modal.component';
+import { BooksComponent } from '@app/books/books.component';
+import { CreateEditBookModalComponent } from './books/create-edit-book-modal/create-edit-book-modal.component';
 
 @NgModule({
     declarations: [
@@ -80,7 +82,9 @@ import { CreateEditBookCategoryModalComponent } from './bookcategories/create-ed
         StudentsComponent,
         CreateEditStudentModalComponent,
         BookCategoriesComponent,
-        CreateEditBookCategoryModalComponent
+        CreateEditBookCategoryModalComponent,
+        BooksComponent,
+        CreateEditBookModalComponent
     ],
     imports: [
         CommonModule,
@@ -100,6 +104,7 @@ import { CreateEditBookCategoryModalComponent } from './bookcategories/create-ed
     providers: [
         DepartmentServiceProxy,
         StudentServiceProxy,
-        BookCategoryServiceProxy]
+        BookCategoryServiceProxy,
+        BookServiceProxy]
 })
 export class AppModule {}

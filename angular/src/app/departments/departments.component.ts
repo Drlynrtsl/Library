@@ -20,7 +20,7 @@ class PagedDepartmentsRequestDto extends PagedRequestDto {
 
 @Component({
   templateUrl: "./departments.component.html",
-  animations: [appModuleAnimation()],
+  animations: [appModuleAnimation()]
 })
 export class DepartmentsComponent extends PagedListingComponentBase<DepartmentDto> {
   departments: DepartmentDto[] = [];
@@ -28,7 +28,7 @@ export class DepartmentsComponent extends PagedListingComponentBase<DepartmentDt
   keyword = "";
   isActive: boolean | null;
   advancedFiltersVisible = false;
-  
+
   constructor(
     injector: Injector,
     private _departmentService: DepartmentServiceProxy,

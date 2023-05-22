@@ -16,7 +16,7 @@ import { BsModalRef } from "ngx-bootstrap/modal";
 
 @Component({
   selector: "create-edit-bookcategory-modal",
-  templateUrl: "./create-edit-bookcategory-modal.component.html",
+  templateUrl: "./create-edit-bookcategory-modal.component.html"
 })
 export class CreateEditBookCategoryModalComponent
   extends AppComponentBase
