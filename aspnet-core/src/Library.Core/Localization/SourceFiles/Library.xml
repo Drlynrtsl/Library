@@ -120,8 +120,12 @@
 	<text name="Department">Department</text>
 	<text name="Student">Student</text>
 	<text name="BookCategory">Book Category</text>
-	  <text name="DepartmentDeleteWarningMessage">Department <strong>{0}</strong> will be deleted.</text>
-	  <text name="StudentDeleteWarningMessage">Student {0} will be deleted.</text>
-	  <text name="BookCategoryDeleteWarningMessage">BookCategory {0} will be deleted.</text>
+	<text name="DepartmentDeleteWarningMessage">Department <strong>{0}</strong> will be deleted.</text>
+	<text name="StudentDeleteWarningMessage">Student {0} will be deleted.</text>
+	<text name="BookCategoryDeleteWarningMessage">BookCategory {0} will be deleted.</text>
+	<text name="Book">Book</text>
+	<text name="BookDeleteWarningMessage">Book {0} will be deleted.</text>
+	<text name="Borrow">Borrow</text>
+	<text name="BorrowDeleteWarningMessage">Borrow {0} will be deleted.</text>
   </texts>
 </localizationDictionary>

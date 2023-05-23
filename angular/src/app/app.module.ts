@@ -47,6 +47,8 @@ import { BookCategoriesComponent } from '@app/bookcategories/bookcategories.comp
 import { CreateEditBookCategoryModalComponent } from './bookcategories/create-edit-bookcategory-modal/create-edit-bookcategory-modal.component';
 import { BooksComponent } from '@app/books/books.component';
 import { CreateEditBookModalComponent } from './books/create-edit-book-modal/create-edit-book-modal.component';
+import BorrowersComponent from '@app/borrowers/borrowers.component';
+import { CreateEditBorrowerModalComponent } from './borrowers/create-edit-borrowers-modal/create-edit-borrower-modal.component';
 
 @NgModule({
     declarations: [
@@ -84,7 +86,9 @@ import { CreateEditBookModalComponent } from './books/create-edit-book-modal/cre
         BookCategoriesComponent,
         CreateEditBookCategoryModalComponent,
         BooksComponent,
-        CreateEditBookModalComponent
+        CreateEditBookModalComponent,
+        BorrowersComponent,
+        CreateEditBorrowerModalComponent
     ],
     imports: [
         CommonModule,

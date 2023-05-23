@@ -1666,6 +1666,59 @@ namespace Library.Migrations
                     b.ToTable("BookCategories");
                 });
 
+            modelBuilder.Entity("Library.Entities.Borrower", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("BorrowDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpectedReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("ReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Borrowers");
+                });
+
             modelBuilder.Entity("Library.Entities.Department", b =>
                 {
                     b.Property<int>("Id")
@@ -2049,6 +2102,21 @@ namespace Library.Migrations
                         .HasForeignKey("DepartmentId");
 
                     b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("Library.Entities.Borrower", b =>
+                {
+                    b.HasOne("Library.Entities.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId");
+
+                    b.HasOne("Library.Entities.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Library.Entities.Student", b =>

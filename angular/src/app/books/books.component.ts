@@ -11,8 +11,9 @@ import {
   BookDtoPagedResultDto,
   BookServiceProxy,
 } from "@shared/service-proxies/service-proxies";
-import { BsModalService } from "ngx-bootstrap/modal";
+import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { finalize } from "rxjs/operators";
+import { CreateEditBookModalComponent } from "./create-edit-book-modal/create-edit-book-modal.component";
 
 class PagedBooksRequestDto extends PagedRequestDto {
   keyword: string;
@@ -33,15 +34,18 @@ export class BooksComponent extends PagedListingComponentBase<BookDto> {
   constructor(
     injector: Injector,
     private _bookService: BookServiceProxy,
-    private _bookCategoryService: BookCategoryServiceProxy,
     private _modalService: BsModalService
   ) {
     super(injector);
   }
 
-  /* createBook() {
-    this.show;
-  } */
+  createBook() {
+    this.showCreateOrEditBooksModal();
+  }
+
+  editBook(id){
+    this.showCreateOrEditBooksModal(id);
+  }
 
   protected list(
     request: PagedBooksRequestDto,
@@ -77,5 +81,31 @@ export class BooksComponent extends PagedListingComponentBase<BookDto> {
         }
       }
     );
+  }
+  
+  private showCreateOrEditBooksModal(id?: number): void {
+    let createOrEditBooksModal: BsModalRef;
+    if (!id) {
+      createOrEditBooksModal = this._modalService.show(
+        CreateEditBookModalComponent,
+        {
+          class: "modal-lg",
+        }
+      );
+    } else {
+      createOrEditBooksModal = this._modalService.show(
+        CreateEditBookModalComponent,
+        {
+          class: "modal-lg",
+          initialState: {
+            id: id,
+          },
+        }
+      );
+    }
+
+    createOrEditBooksModal.content.onSave.subscribe(() => {
+      this.refresh();
+    });
   }
 }

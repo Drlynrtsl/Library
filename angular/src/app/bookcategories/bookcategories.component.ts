@@ -34,8 +34,7 @@ export class BookCategoriesComponent extends PagedListingComponentBase<BookCateg
   constructor(
     injector: Injector,
     private _bookCategoryService: BookCategoryServiceProxy,
-    private _modalService: BsModalService,
-    private _departmentService: DepartmentServiceProxy
+    private _modalService: BsModalService
   ) {
     super(injector);
   }
@@ -66,13 +65,6 @@ export class BookCategoriesComponent extends PagedListingComponentBase<BookCateg
       .subscribe((result: BookCategoryDtoPagedResultDto) => {
         this.bookcategories = result.items;
         this.showPaging(result, pageNumber);
-
-        this._departmentService.getAllDepartments().subscribe((departments) => {
-          this.bookcategories.forEach((bookcategory) => {
-            const department = departments.find(d => d.id === bookcategory.departmentId);
-            bookcategory.department = department;
-          });
-        });
       });
   }
 

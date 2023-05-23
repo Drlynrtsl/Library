@@ -16,53 +16,50 @@
     </section>
     <section class="content px-2">
         <div class="container-fluid">
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered" [busy]="isTableLoading">
-                    <thead class="bg-light">
-                    <tr>
-                        <th>{{ "Id" | localize }}</th>
-                        <th>{{ "Student Name" | localize }}</th>
-                        <th>{{ "Contact Number" | localize }}</th>
-                        <th>{{ "Email Address" | localize }}</th>
-                        <th>{{ "Department" | localize }}</th>                           
-                        <th style="width: 310px;">{{ "Actions" | localize }}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let student of students | paginate
-                    : {
-                        id: 'server',
-                        itemsPerPage: pageSize,
-                        currentPage: pageNumber,
-                        totalItems: totalItems
-                        }  "
-                    >
-                        <td>{{ student.id }}</td>
-                        <td>{{ student.studentName }}</td>
-                        <td>{{ student.studentContactNumber }}</td>
-                        <td>{{ student.studentEmail }}</td>
-                        <td>{{ student.department?.name }}</td>
-                        <td>
-                            <button
-                                    type="button"
-                                    class="btn btn-sm bg-secondary"
-                                    (click)="editStudent(student.id)"
-                            >
-                                <i class="fas fa-pencil-alt"></i>
-                                {{ "Edit" | localize }}
-                            </button>
-                            <button
-                                    type="button"
-                                    class="btn btn-sm bg-danger mx-2"
-                                    (click)="delete(student)"
-                            >
-                                <i class="fas fa-trash"></i>
-                                {{ "Delete" | localize }}
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" [busy]="isTableLoading">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>{{ "Id" | localize }}</th>
+                                    <th>{{ "Student Name" | localize }}</th>
+                                    <th>{{ "Contact Number" | localize }}</th>
+                                    <th>{{ "Email Address" | localize }}</th>
+                                    <th>{{ "Department" | localize }}</th>
+                                    <th style="width: 310px;">{{ "Actions" | localize }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let student of students | paginate
+                            : {
+                                id: 'server',
+                                itemsPerPage: pageSize,
+                                currentPage: pageNumber,
+                                totalItems: totalItems
+                                }  ">
+                                    <td>{{ student.id }}</td>
+                                    <td>{{ student.studentName }}</td>
+                                    <td>{{ student.studentContactNumber }}</td>
+                                    <td>{{ student.studentEmail }}</td>
+                                    <td>{{ student.department?.name }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm bg-secondary"
+                                            (click)="editStudent(student.id)">
+                                            <i class="fas fa-pencil-alt"></i>
+                                            {{ "Edit" | localize }}
+                                        </button>
+                                        <button type="button" class="btn btn-sm bg-danger mx-2"
+                                            (click)="delete(student)">
+                                            <i class="fas fa-trash"></i>
+                                            {{ "Delete" | localize }}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="card-footer table-card-footer bg-light border-top">
@@ -79,9 +76,7 @@
                 </div>
                 <div class="col-sm-4 col-12">
                     <div class="float-sm-right m-auto">
-                        <abp-pagination-controls
-                                id="server"
-                                (pageChange)="getDataPage($event)">
+                        <abp-pagination-controls id="server" (pageChange)="getDataPage($event)">
                         </abp-pagination-controls>
                     </div>
                 </div>
