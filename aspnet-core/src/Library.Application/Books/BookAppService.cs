@@ -16,9 +16,11 @@ namespace Library.Books
     public class BookAppService : AsyncCrudAppService<Book, BookDto, int, PagedBookResultRequestDto, CreateBookDto, BookDto>, IBookAppService
     {
         private readonly IRepository<Book, int> _repository;
-        public BookAppService(IRepository<Book, int> repository) : base(repository)
+        private readonly IRepository<Student, int> _studentRepository;
+        public BookAppService(IRepository<Book, int> repository, IRepository<Student, int> studentRepository) : base(repository)
         {
             _repository = repository;
+            _studentRepository = studentRepository;
         }
 
 
@@ -30,6 +32,31 @@ namespace Library.Books
                 .ToListAsync();
 
             return new PagedResultDto<BookDto>(query.Count(), query);
+        }
+
+        public async Task<List<BookDto>> GetAvailableBooks()
+        {
+            var query = await _repository.GetAll()
+                .Include(x => x.BookCategory)
+                .Where(x => !x.IsBorrowed)
+                .Select(x => ObjectMapper.Map<BookDto>(x))
+                .ToListAsync();
+            return query;
+        }
+
+        public async Task<List<BookDto>> GetAllBooksByStudentId(int id)
+        {
+            var student = _studentRepository.GetAll()
+                .Include(x => x.Department)
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+
+            var books = _repository
+                .GetAllIncluding(x => x.BookCategory, x => x.BookCategory.Department)
+                .Where(x => x.BookCategory.DepartmentId == student.DepartmentId && !x.IsBorrowed)
+                .ToListAsync();
+
+            return ObjectMapper.Map<List<BookDto>>(books);
         }
     }
 }

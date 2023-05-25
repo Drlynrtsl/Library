@@ -22,11 +22,10 @@ class PagedBooksRequestDto extends PagedRequestDto {
 
 @Component({
   templateUrl: "./books.component.html",
-  animations: [appModuleAnimation()],
+  animations: [appModuleAnimation()]
 })
 export class BooksComponent extends PagedListingComponentBase<BookDto> {
   books: BookDto[] = [];
-  id: number;
   keyword = "";
   isActive: boolean | null;
   bookcategories: BookCategoryDto[] = [];

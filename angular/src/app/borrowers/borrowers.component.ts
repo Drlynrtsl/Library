@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from "@angular/core";
+import { Component, Injector } from "@angular/core";
 import { appModuleAnimation } from "@shared/animations/routerTransition";
 import {
   PagedListingComponentBase,
