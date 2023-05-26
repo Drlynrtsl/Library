@@ -43,14 +43,14 @@
                                 totalItems: totalItems
                                 }  ">
                                     <td>{{ borrower.id }}</td>
-                                    <td>{{ borrower.borrowDate | date: 'dd/MM/yyyy'}}</td>
-                                    <td>{{ borrower.expectedReturnDate | date: 'dd/MM/yyyy'}}</td>
-                                    <td>{{ borrower.returnDate | date: 'dd/MM/yyyy'}}</td>
+                                    <td>{{ borrower.borrowDate | date: 'MM/dd/yyyy'}}</td>
+                                    <td>{{ borrower.expectedReturnDate | date: 'MM/dd/yyyy'}}</td>
+                                    <td>{{ borrower.returnDate | date: 'MM/dd/yyyy'}}</td>
                                     <td>{{ borrower.book?.bookTitle }}</td>
                                     <td>{{ borrower.student?.studentName }}</td>
-                                    <td *ngIf="!borrower.isBorrowed; else IsBorrowed">Returned</td>
+                                    <td *ngIf="!borrower.isBorrowed; else IsBorrowed">Borrowed</td>
                                     <ng-template #IsBorrowed>
-                                        <td>Borrowed</td>
+                                        <td>Returned</td>
                                     </ng-template>
                                     <td>
                                         <button type="button" 

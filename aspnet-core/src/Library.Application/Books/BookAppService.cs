@@ -44,19 +44,5 @@ namespace Library.Books
             return query;
         }
 
-        public async Task<List<BookDto>> GetAllBooksByStudentId(int id)
-        {
-            var student = _studentRepository.GetAll()
-                .Include(x => x.Department)
-                .Where(x => x.Id == id)
-                .FirstOrDefault();
-
-            var books = _repository
-                .GetAllIncluding(x => x.BookCategory, x => x.BookCategory.Department)
-                .Where(x => x.BookCategory.DepartmentId == student.DepartmentId && !x.IsBorrowed)
-                .ToListAsync();
-
-            return ObjectMapper.Map<List<BookDto>>(books);
-        }
     }
 }
