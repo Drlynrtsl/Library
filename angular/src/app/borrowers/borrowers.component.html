@@ -48,22 +48,22 @@
                                     <td>{{ borrower.returnDate | date: 'MM/dd/yyyy'}}</td>
                                     <td>{{ borrower.book?.bookTitle }}</td>
                                     <td>{{ borrower.student?.studentName }}</td>
-                                    <td *ngIf="!borrower.isBorrowed; else IsBorrowed">Borrowed</td>
+                                    <td *ngIf="!borrower.book?.isBorrowed; else IsBorrowed">Returned</td>
                                     <ng-template #IsBorrowed>
-                                        <td>Returned</td>
+                                        <td>Borrowed</td>
                                     </ng-template>
                                     <td>
                                         <button type="button" 
                                         class="btn btn-sm bg-secondary"
-                                            (click)="editBorrower(borrower.id)" 
-                                            [disabled]="!borrower.returnDate.HasValue">
+                                        [disabled]="!borrower.book?.isBorrowed"
+                                            (click)="editBorrower(borrower.id)">
                                             <i class="fas fa-pencil-alt"></i>
                                             {{ "Edit" | localize }}
                                         </button>
                                         <button type="button" 
-                                        class="btn btn-sm bg-danger mx-2" 
-                                            (click)="delete(borrower)" 
-                                            [disabled]="!borrower.returnDate.HasValue">
+                                        class="btn btn-sm bg-danger mx-2"
+                                        [disabled]="!borrower.book?.isBorrowed" 
+                                            (click)="delete(borrower)">
                                             <i class="fas fa-trash"></i>
                                             {{ "Delete" | localize }}
                                         </button>

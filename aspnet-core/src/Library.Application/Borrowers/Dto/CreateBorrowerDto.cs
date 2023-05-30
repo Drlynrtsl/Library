@@ -13,9 +13,10 @@ namespace Library.Borrowers.Dto
     [AutoMapTo(typeof(Borrower))]
     public class CreateBorrowerDto
     {
+        public int Id { get; set; }
         public DateTime BorrowDate { get; set; }
         public DateTime ExpectedReturnDate { get; set; }
-        public DateTime ReturnDate { get; set; }
+        public DateTime? ReturnDate { get; set; }
         public int BookId { get; set; }
         public int StudentId { get; set; }
     }

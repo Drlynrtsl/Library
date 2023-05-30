@@ -27,23 +27,15 @@ namespace Library.Borrowers
 
         public override async Task<BorrowerDto> CreateAsync(CreateBorrowerDto input)
         {
-            try
-            {
-                var borrow = ObjectMapper.Map<Borrower>(input);
-                await _repository.InsertAsync(borrow);
+                var borrower = ObjectMapper.Map<Borrower>(input);
+                await _repository.InsertAsync(borrower);
 
                 var book = await _bookRepository.GetAsync(input.BookId);
                 book.IsBorrowed = true;
 
                 await _bookRepository.UpdateAsync(book);
 
-                return base.MapToEntityDto(borrow);
-            }
-            catch (Exception e)
-            {
-
-                throw e;
-            }
+                return base.MapToEntityDto(borrower);            
         }
 
         public override async Task<PagedResultDto<BorrowerDto>> GetAllAsync(PagedBorrowerResultRequestDto input)
@@ -51,7 +43,8 @@ namespace Library.Borrowers
             var query = await _repository.GetAll()
             .Include(x => x.Book)
             .Include(x => x.Student)
-            .Select( x => ObjectMapper.Map<BorrowerDto>(x))
+            .OrderByDescending(x => x.Id)
+            .Select( x => ObjectMapper.Map<BorrowerDto>(x))            
             .ToListAsync();
 
             return new PagedResultDto<BorrowerDto>(query.Count(), query);
@@ -60,12 +53,12 @@ namespace Library.Borrowers
         public async Task<BorrowerDto> GetBorrowWithBookAndStudentUnderBookCategory(EntityDto<int> input)
         {
             var query = await _repository.GetAll()
-                .Include(x => x.Book)
-                    .ThenInclude(x => x.BookCategory)
-                    .ThenInclude(x => x.Department)
                 .Include(x => x.Student)
                     .ThenInclude(x => x.Department)
                 .Where(x => x.Id == input.Id)
+                .Include(x => x.Book)
+                    .ThenInclude(x => x.BookCategory)
+                    .ThenInclude(x => x.Department)
                 .Select(x => ObjectMapper.Map<BorrowerDto>(x))
                 .FirstOrDefaultAsync();
 
@@ -87,28 +80,22 @@ namespace Library.Borrowers
             return ObjectMapper.Map<List<BookDto>>(books);
         }
 
-        //public override async Task<BorrowerDto> UpdateAsync(BorrowerDto input)
-        //{
-        //    try
-        //    {
-        //        var borrow = ObjectMapper.Map<Borrower>(input);
-        //        await _repository.UpdateAsync(borrow);
+        public override async Task<BorrowerDto> UpdateAsync(BorrowerDto input)
+        {
+                var borrower = ObjectMapper.Map<Borrower>(input);
+                await _repository.UpdateAsync(borrower);
 
-        //        var book = await _bookRepository.GetAsync(input.BookId);
-        //        if (input.ReturnDate.HasValue)
-        //        {
-        //            book.IsBorrowed = false;
-        //        }
+                var book = await _bookRepository.GetAsync(input.BookId);
 
-        //        await _bookRepository.UpdateAsync(book);
+                if (input.ReturnDate.HasValue)
+                {
+                    book.IsBorrowed = false;
+                }
 
-        //        return base.MapToEntityDto(borrow);
-        //    }
-        //    catch (Exception e)
-        //    {
+                await _bookRepository.UpdateAsync(book);
 
-        //        throw e;
-        //    }
-        //}
+                return base.MapToEntityDto(borrower);
+            
+        }
     }
 }
