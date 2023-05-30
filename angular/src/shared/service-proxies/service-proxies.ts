@@ -221,8 +221,8 @@ export class BookServiceProxy {
     /**
      * @return Success
      */
-    getAvailableBooks(): Observable<BookDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Book/GetAvailableBooks";
+    getAllAvailableBooks(): Observable<BookDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Book/GetAllAvailableBooks";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -234,11 +234,11 @@ export class BookServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAvailableBooks(response_);
+            return this.processGetAllAvailableBooks(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAvailableBooks(response_ as any);
+                    return this.processGetAllAvailableBooks(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<BookDto[]>;
                 }
@@ -247,7 +247,7 @@ export class BookServiceProxy {
         }));
     }
 
-    protected processGetAvailableBooks(response: HttpResponseBase): Observable<BookDto[]> {
+    protected processGetAllAvailableBooks(response: HttpResponseBase): Observable<BookDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :

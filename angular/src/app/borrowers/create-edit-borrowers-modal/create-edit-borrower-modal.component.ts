@@ -32,7 +32,6 @@ export class CreateEditBorrowerModalComponent
   id: number = 0;
   selectedBook: number = null;
   selectedStudent: number = null;
-  disableSaveButton: boolean = true;
   
   @Output() onSave = new EventEmitter<any>();
 
@@ -58,13 +57,13 @@ export class CreateEditBorrowerModalComponent
       });
     }
 
-    this.borrower.expectedReturnDate = moment()
-    //Create
-    this._bookService.getAllBooks().subscribe((res) => {
-      this.books = res;
+    this._bookService.getAllBooks().subscribe((result1) => {
+      this.books = result1;
+      this.selectedBook = this.borrower.bookId;
     });
-    this._studentService.getAllStudents().subscribe((res) => {
-      this.students = res;
+    this._studentService.getAllStudents().subscribe((result2) => {
+      this.students = result2;
+      this.selectedStudent = this.borrower.studentId;
     });
   }
 
@@ -77,10 +76,16 @@ export class CreateEditBorrowerModalComponent
     ].join('-');
     return date;
 }
+
+/* onExpectedReturnDateChange(): void{
+  const borrowDate = moment(this.borrower.borrowDate);
+  this.borrower.expectedReturnDate = moment(borrowDate.clone().add(7, 'days').toDate());
+} */
   
 
   save(): void {
     this.saving = true;
+    this.borrower.id = this.id;
     this.borrower.bookId = this.selectedBook;
     this.borrower.studentId = this.selectedStudent;
 

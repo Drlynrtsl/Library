@@ -33,12 +33,7 @@ autocomplete="off"
                 name="expectedReturnDate"
                 id="expectedReturnDate"
                 required
-                [(ngModel)]="borrower.expectedReturnDate"
-                #nameModel="ngModel" 
-                #nameEl/>
-                <abp-validation-summary 
-                [control]="nameModel" 
-                [controlEl]="nameEl"></abp-validation-summary>
+                [(ngModel)]="borrower.expectedReturnDate"/>
             </div>
         </div>
         <div *ngIf="borrower.id!==0 && borrower.book?.isBorrowed" class="form-group row required">

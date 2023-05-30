@@ -34,7 +34,7 @@ namespace Library.Books
             return new PagedResultDto<BookDto>(query.Count(), query);
         }
 
-        public async Task<List<BookDto>> GetAvailableBooks()
+        public async Task<List<BookDto>> GetAllAvailableBooks()
         {
            var query = await _repository.GetAll()
                 .Include(x => x.BookCategory)
