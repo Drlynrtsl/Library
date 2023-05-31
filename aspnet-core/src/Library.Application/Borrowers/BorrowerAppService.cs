@@ -54,6 +54,7 @@ namespace Library.Borrowers
                 .ThenInclude(x => x.Department)
             .Include(x => x.Student)
                 .ThenInclude(x => x.Department)
+            .OrderByDescending(x => x.Id)
             .Select(x => ObjectMapper.Map<BorrowerDto>(x))
             .ToListAsync();
 
@@ -112,6 +113,11 @@ namespace Library.Borrowers
 
                 throw e;
             }
+        }
+
+        public override Task<BorrowerDto> GetAsync(EntityDto<int> input)
+        {
+            return base.GetAsync(input);
         }
     }
 }
