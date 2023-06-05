@@ -46,7 +46,10 @@ export class DepartmentsComponent extends PagedListingComponentBase<DepartmentDt
     request.isActive = this.isActive;
 
     this._departmentService
-      .getAll(request.keyword, request.skipCount, request.maxResultCount)
+      .getAll(
+        request.keyword, 
+        request.skipCount, 
+        request.maxResultCount)
       .pipe(
         finalize(() => {
           finishedCallback();
@@ -77,12 +80,6 @@ export class DepartmentsComponent extends PagedListingComponentBase<DepartmentDt
   }
   editDepartment(id) {
     this.showCreateOrEditDeptmodal(id);
-  }
-
-  clearFilters(): void {
-    this.keyword = '';
-    this.isActive = undefined;
-    this.getDataPage(1);
   }
 
   private showCreateOrEditDeptmodal(id?: number): void {

@@ -127,5 +127,13 @@
 	<text name="BookDeleteWarningMessage">Book {0} will be deleted.</text>
 	<text name="Borrow">Borrow</text>
 	<text name="BorrowDeleteWarningMessage">Borrow {0} will be deleted.</text>
+	<text name="Author">Author</text>
+	<text name="AuthorDeleteWarningMessage">Author {0} will be deleted.</text>
+	<text name="CreateNewDepartment">Create New Department</text>
+	<text name="CreateNewStudent">Create New Student</text>
+	<text name="CreateNewBookCategory">Create New Book Category</text>
+	<text name="CreateNewBook">Create New Book</text>
+	<text name="CreateNewBorrower">Create New Borrower</text>
+	<text name="CreateNewAuthor">Create New Author</text>
   </texts>
 </localizationDictionary>

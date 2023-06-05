@@ -6,9 +6,7 @@
                     <h1>{{"Borrowers" | localize}}</h1>
                 </div>
                 <div class="col-6 text-right">
-                    <a href="javascript:;" 
-                    class="btn bg-blue" 
-                    (click)="createBorrower()">
+                    <a href="javascript:;" class="btn bg-blue" (click)="createBorrower()">
                         <i class="fa fa-plus-square"></i>
                         {{"Create" | localize}}
                     </a>
@@ -20,57 +18,73 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" [busy]="isTableLoading">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th>{{ "Id" | localize }}</th>
-                                    <th>{{ "Borrow Date" | localize }}</th>
-                                    <th>{{ "Expected Return Date" | localize }}</th>
-                                    <th>{{ "Return Date" | localize }}</th>
-                                    <th>{{ "Book Title" | localize }}</th>
-                                    <th>{{ "Student Name" | localize }}</th>
-                                    <th>{{ "Remarks" | localize }}</th>
-                                    <th style="width: 310px;">{{ "Actions" | localize }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let borrower of borrowers | paginate
-                            : {
-                                id: 'server',
-                                itemsPerPage: pageSize,
-                                currentPage: pageNumber,
-                                totalItems: totalItems
-                                }  ">
-                                    <td>{{ borrower.id }}</td>
-                                    <td>{{ borrower.borrowDate | date: 'MM/dd/yyyy'}}</td>
-                                    <td>{{ borrower.expectedReturnDate | date: 'MM/dd/yyyy'}}</td>
-                                    <td>{{ borrower.returnDate | date: 'MM/dd/yyyy'}}</td>
-                                    <td>{{ borrower.book?.bookTitle }}</td>
-                                    <td>{{ borrower.student?.studentName }}</td>
-                                    <td *ngIf="!borrower.book?.isBorrowed; else IsBorrowed">Returned</td>
-                                    <ng-template #IsBorrowed>
-                                        <td>Borrowed</td>
-                                    </ng-template>
-                                    <td>
-                                        <button type="button" 
-                                        class="btn btn-sm bg-secondary"
-                                        [disabled]="!borrower.book?.isBorrowed"
-                                            (click)="editBorrower(borrower.id)">
-                                            <i class="fas fa-pencil-alt"></i>
-                                            {{ "Edit" | localize }}
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">&emsp;</div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <button type="button" class="btn bg-blue" (click)="getDataPage(1)">
+                                            <i class="fas fa-search"></i>
                                         </button>
-                                        <button type="button" 
-                                        class="btn btn-sm bg-danger mx-2"
-                                        [disabled]="!borrower.book?.isBorrowed" 
-                                            (click)="delete(borrower)">
-                                            <i class="fas fa-trash"></i>
-                                            {{ "Delete" | localize }}
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                    </div>
+                                    <input type="text" class="form-control" name="keyword"
+                                        [placeholder]="'SearchWithThreeDot' | localize" [(ngModel)]="keyword"
+                                        (keyup.enter)="getDataPage(1)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" [busy]="isTableLoading">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th>{{ "Id" | localize }}</th>
+                                        <th>{{ "Borrow Date" | localize }}</th>
+                                        <th>{{ "Expected Return Date" | localize }}</th>
+                                        <th>{{ "Return Date" | localize }}</th>
+                                        <th>{{ "Book Title" | localize }}</th>
+                                        <th>{{ "Student Name" | localize }}</th>
+                                        <th>{{ "Remarks" | localize }}</th>
+                                        <th style="width: 310px;">{{ "Actions" | localize }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let borrower of borrowers | paginate
+                                : {
+                                    id: 'server',
+                                    itemsPerPage: pageSize,
+                                    currentPage: pageNumber,
+                                    totalItems: totalItems
+                                    }  ">
+                                        <td>{{ borrower.id }}</td>
+                                        <td>{{ borrower.borrowDate | date: 'MM/dd/yyyy'}}</td>
+                                        <td>{{ borrower.expectedReturnDate | date: 'MM/dd/yyyy'}}</td>
+                                        <td>{{ borrower.returnDate | date: 'MM/dd/yyyy'}}</td>
+                                        <td>{{ borrower.book?.bookTitle }}</td>
+                                        <td>{{ borrower.student?.studentName }}</td>
+                                        <td *ngIf="!borrower.book?.isBorrowed; else IsBorrowed">Returned</td>
+                                        <ng-template #IsBorrowed>
+                                            <td>Borrowed</td>
+                                        </ng-template>
+                                        <td>
+                                            <button type="button" class="btn btn-sm bg-secondary"
+                                                [disabled]="!borrower.book?.isBorrowed"
+                                                (click)="editBorrower(borrower.id)">
+                                                <i class="fas fa-pencil-alt"></i>
+                                                {{ "Edit" | localize }}
+                                            </button>
+                                            <button type="button" class="btn btn-sm bg-danger mx-2"
+                                                [disabled]="!borrower.book?.isBorrowed" (click)="delete(borrower)">
+                                                <i class="fas fa-trash"></i>
+                                                {{ "Delete" | localize }}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

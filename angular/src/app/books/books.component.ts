@@ -55,7 +55,10 @@ export class BooksComponent extends PagedListingComponentBase<BookDto> {
     request.isActive = this.isActive;
 
     this._bookService
-      .getAll(request.keyword, request.skipCount, request.maxResultCount)
+      .getAll(
+        request.keyword, 
+        request.skipCount, 
+        request.maxResultCount)
       .pipe(
         finalize(() => {
           finishedCallback();

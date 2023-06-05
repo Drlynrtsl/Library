@@ -1,6 +1,8 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
+using Abp.Extensions;
 using Library.Departments.Dto;
 using Library.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Abp.Collections.Extensions;
+using Abp.Extensions;
+using Abp.Linq.Extensions;
 
 namespace Library.Departments
 {
@@ -29,6 +34,12 @@ namespace Library.Departments
         {
             var query = await _repository.GetAllListAsync();
             return ObjectMapper.Map<List<DepartmentDto>>(query);
+        }
+
+        protected override IQueryable<Department> CreateFilteredQuery(PagedDepartmentResultRequestDto input)
+        {
+            return Repository.GetAll()
+                .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.Name.Contains(input.Keyword));
         }
     }
 }

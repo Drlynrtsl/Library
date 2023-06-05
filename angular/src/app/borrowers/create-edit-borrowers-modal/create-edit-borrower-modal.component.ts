@@ -19,7 +19,7 @@ import { BsModalRef } from "ngx-bootstrap/modal";
 
 @Component({
   selector: "create-edit-borrower-modal",
-  templateUrl: "./create-edit-borrower-modal.component.html",
+  templateUrl: "./create-edit-borrower-modal.component.html"
 })
 export class CreateEditBorrowerModalComponent
   extends AppComponentBase
@@ -33,6 +33,7 @@ export class CreateEditBorrowerModalComponent
   selectedBook: number = null;
   selectedStudent: number = null;
   today = new Date();
+  isUTC = true;
 
   @Output() onSave = new EventEmitter<any>();
 
@@ -54,24 +55,30 @@ export class CreateEditBorrowerModalComponent
         this.selectedStudent = this.borrower.studentId;
       });
     }
-
-    this._bookService.getAllAvailableBooks().subscribe((result1) => {
-      this.books = result1;
-    });
     
-    this._studentService.getAllStudents().subscribe((result2) => {
-      this.students = result2;
+    if(this.selectedBook){
+      if(this.borrower.id !== 0){
+        this._bookService.getAllBooks().subscribe((result1) => {
+          this.books = result1;
+        });
+      }else{
+        this._bookService.getAllAvailableBooks().subscribe((result2) => {
+          this.books = result2;
+        });
+      }
+    }
+
+    this._studentService.getAllStudents().subscribe((result) => {
+      this.students = result;
     });
 
-    this.borrower.borrowDate = this.formatDate(this.today);//Get currentDate
-    this.borrower.expectedReturnDate = this.formatDate(this.borrower.expectedReturnDate);
-    this.borrower.returnDate = this.formatDate(this.borrower.returnDate);
+    this.borrower.borrowDate = this.formatDate(this.today); //Get currentDate
 
     //Add 7 days from BorrowDate
     if (this.borrower.borrowDate) {
       const borrowDate = moment(this.borrower.borrowDate);
       this.borrower.expectedReturnDate = this.formatDate(
-        moment(borrowDate.clone().add(7, "days").toDate())
+        moment(borrowDate.add(7, "days"))
       );
     }
 
@@ -85,14 +92,15 @@ export class CreateEditBorrowerModalComponent
           this.selectedBook = res.bookId;
           this.selectedStudent = res.studentId;
           this.borrower.borrowDate = this.formatDate(res.borrowDate);
-          this.borrower.expectedReturnDate = this.formatDate(res.expectedReturnDate);
-          this.borrower.returnDate = this.formatDate(res.returnDate);
+          this.borrower.expectedReturnDate = this.formatDate(
+            res.expectedReturnDate
+          );
         });
-        
-        this._bookService.getAllBooks().subscribe((result1) => {
-          this.books = result1;
-        });
-    } 
+
+      this._bookService.getAllBooks().subscribe((result1) => {
+        this.books = result1;
+      });
+    }
   }
 
   //Date Format "yyyy-mm-dd"
@@ -113,30 +121,28 @@ export class CreateEditBorrowerModalComponent
         .subscribe((res) => {
           this.books = res;
           this.borrower.bookId = this.selectedBook;
-          if(this.books && this.books.length){
-            
+          if (this.books && this.books.length) {
           }
         });
     }
   }
 
-
   //Late Book return
-  onateReturnBook(){
+  /* onateReturnBook(){
     if((!this.borrower.book.isBorrowed && this.borrower.returnDate > this.borrower.expectedReturnDate) || (this.borrower.book.isBorrowed && this.borrower.expectedReturnDate < moment(this.today))){
 
     }
-  }
-  
+  } */
 
   save(): void {
+    this.isUTC = false;
     this.saving = true;
     this.borrower.id = this.id;
     this.borrower.bookId = this.selectedBook;
     this.borrower.studentId = this.selectedStudent;
 
-    this.borrower.borrowDate = moment(this.borrower.borrowDate);
-    this.borrower.expectedReturnDate = moment(this.borrower.expectedReturnDate);
+    this.borrower.borrowDate = moment.utc(this.borrower.borrowDate);
+    this.borrower.expectedReturnDate = moment.utc(this.borrower.expectedReturnDate);
 
     if (this.borrower.returnDate) {
       this.borrower.returnDate = moment(this.borrower.returnDate);

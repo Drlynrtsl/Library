@@ -20,7 +20,12 @@ autocomplete="off"
                 id="borrowDate"
                 required
                 [(ngModel)]="borrower.borrowDate"
-                (ngModelChange)="today=$event"/>
+                #borrowDateModel="ngModel" 
+                #borrowDateEl
+                />                
+                <abp-validation-summary 
+                [control]="borrowDateModel" 
+                [controlEl]="borrowDateEl"></abp-validation-summary>
             </div>
         </div>
         <div class="form-group row required">
@@ -35,10 +40,15 @@ autocomplete="off"
                 id="expectedReturnDate"
                 required
                 [(ngModel)]="borrower.expectedReturnDate"
-                (ngModelChange)="today=$event"/>
+                #borrowDateModel="ngModel" 
+                #borrowDateEl
+                />                
+                <abp-validation-summary 
+                [control]="borrowDateModel" 
+                [controlEl]="borrowDateEl"></abp-validation-summary>
             </div>
         </div>
-        <div *ngIf="borrower.id!==0 && borrower.book?.isBorrowed" class="form-group row required">
+        <div *ngIf="borrower.id!=0 && borrower.book?.isBorrowed" class="form-group row required">
             <label for="returnDate" class="col-md-3 col-form-label">
                 {{"Return Date" | localize}}
             </label>

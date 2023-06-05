@@ -1,6 +1,9 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
+using Abp.Extensions;
+using Library.Authors.Dto;
 using Library.BookCategories.Dto;
 using Library.Departments.Dto;
 using Library.Entities;
@@ -10,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Abp.Linq.Extensions;
 
 namespace Library.BookCategories
 {
@@ -35,5 +39,13 @@ namespace Library.BookCategories
 
             return new PagedResultDto<BookCategoryDto>(query.Count(), query);
         }
+
+        protected override IQueryable<BookCategory> CreateFilteredQuery(PagedBookCategoryResultRequestDto input)
+        {
+            return Repository.GetAll()
+                .Include ( x=>x.Department)
+            .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.Name.Contains(input.Keyword) || x.Department.Name.Contains(input.Keyword));
+        }
+
     }
 }

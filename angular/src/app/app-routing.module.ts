@@ -13,6 +13,7 @@ import { StudentsComponent } from './students/students.component';
 import { BookCategoriesComponent } from './bookcategories/bookcategories.component';
 import { BooksComponent } from './books/books.component';
 import { BorrowersComponent } from './borrowers/borrowers.component';
+import { AuthorsComponent } from './authors/authors.component';
 
 @NgModule({
     imports: [
@@ -30,6 +31,7 @@ import { BorrowersComponent } from './borrowers/borrowers.component';
                     { path: 'bookcategories', component: BookCategoriesComponent, canActivate: [AppRouteGuard] },
                     { path: 'books', component: BooksComponent, canActivate: [AppRouteGuard] },
                     { path: 'borrowers', component: BorrowersComponent, canActivate: [AppRouteGuard] },
+                    { path: 'authors', component: AuthorsComponent, canActivate: [AppRouteGuard] },
                     { path: 'about', component: AboutComponent, canActivate: [AppRouteGuard] },
                     { path: 'update-password', component: ChangePasswordComponent, canActivate: [AppRouteGuard] }
                 ]

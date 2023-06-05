@@ -28,6 +28,7 @@ namespace Library.Books
         {
             var query = await _repository.GetAll()
                 .Include(x => x.BookCategory)
+                .Include(x => x.Author)
                 .Select(x => ObjectMapper.Map<BookDto>(x))
                 .ToListAsync();
 
@@ -38,6 +39,7 @@ namespace Library.Books
         {
            var query = await _repository.GetAll()
                 .Include(x => x.BookCategory)
+                .Include(x => x.Author)
                 .Where(x => !x.IsBorrowed)
                 .Select(x => ObjectMapper.Map<BookDto>(x))
                 .ToListAsync();
@@ -48,6 +50,7 @@ namespace Library.Books
         {
             var query = await _repository.GetAll()
                  .Include(x => x.BookCategory)
+                 .Include(x => x.Author)
                  .Select(x => ObjectMapper.Map<BookDto>(x))
                  .ToListAsync();
             return query;

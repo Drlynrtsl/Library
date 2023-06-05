@@ -1,6 +1,8 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
+using Abp.Extensions;
 using Library.Departments.Dto;
 using Library.Entities;
 using Library.Students.Dto;
@@ -10,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Abp.Linq.Extensions;
 
 namespace Library.Students
 {
@@ -39,5 +42,10 @@ namespace Library.Students
             return query;
         }
 
+        protected override IQueryable<Student> CreateFilteredQuery(PagedStudentResultRequestDto input)
+        {
+            return Repository.GetAllIncluding(x => x.Department)
+                .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.StudentName.Contains(input.Keyword) || x.StudentEmail.Contains(input.Keyword) || x.StudentContactNumber.Contains(input.Keyword) || x.Department.Name.Contains(input.Keyword));
+        }
     }
 }

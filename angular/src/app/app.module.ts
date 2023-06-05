@@ -40,7 +40,7 @@ import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { DepartmentsComponent } from '@app/departments/departments.component';
 import { CreateEditDepartmentModalComponent } from '@app/departments/create-edit-department-modal/create-edit-department-modal.component';
-import { BookCategoryServiceProxy, BookServiceProxy, BorrowerServiceProxy, DepartmentServiceProxy, StudentServiceProxy } from '@shared/service-proxies/service-proxies';
+import { AuthorServiceProxy, BookCategoryServiceProxy, BookServiceProxy, BorrowerServiceProxy, DepartmentServiceProxy, StudentServiceProxy } from '@shared/service-proxies/service-proxies';
 import { StudentsComponent } from '@app/students/students.component';
 import { CreateEditStudentModalComponent } from './students/create-edit-student-modal/create-edit-student-modal.component';
 import { BookCategoriesComponent } from '@app/bookcategories/bookcategories.component';
@@ -49,6 +49,8 @@ import { BooksComponent } from '@app/books/books.component';
 import { CreateEditBookModalComponent } from './books/create-edit-book-modal/create-edit-book-modal.component';
 import { BorrowersComponent } from '@app/borrowers/borrowers.component';
 import { CreateEditBorrowerModalComponent } from './borrowers/create-edit-borrowers-modal/create-edit-borrower-modal.component';
+import { AuthorsComponent } from '@app/authors/authors.component';
+import { CreateEditAuthorModalComponent } from './authors/create-edit-authors-modal/create-edit-author-modal.component';
 
 @NgModule({
     declarations: [
@@ -88,7 +90,9 @@ import { CreateEditBorrowerModalComponent } from './borrowers/create-edit-borrow
         BooksComponent,
         CreateEditBookModalComponent,
         BorrowersComponent,
-        CreateEditBorrowerModalComponent
+        CreateEditBorrowerModalComponent,
+        AuthorsComponent,
+        CreateEditAuthorModalComponent
     ],
     imports: [
         CommonModule,
@@ -110,6 +114,7 @@ import { CreateEditBorrowerModalComponent } from './borrowers/create-edit-borrow
         StudentServiceProxy,
         BookCategoryServiceProxy,
         BookServiceProxy,
-        BorrowerServiceProxy]
+        BorrowerServiceProxy,
+        AuthorServiceProxy]
 })
 export class AppModule {}

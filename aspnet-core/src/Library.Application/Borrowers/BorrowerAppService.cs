@@ -1,6 +1,7 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
+using Abp.Linq.Extensions;
 using Library.Books.Dto;
 using Library.Borrowers.Dto;
 using Library.Entities;
@@ -10,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Abp.Collections.Extensions;
+using Abp.Extensions;
 
 namespace Library.Borrowers
 {
@@ -30,6 +33,8 @@ namespace Library.Borrowers
             try
             {
                 var borrower = ObjectMapper.Map<Borrower>(input);
+                borrower.BorrowDate = input.BorrowDate.ToLocalTime();
+                borrower.ExpectedReturnDate = input.ExpectedReturnDate.ToLocalTime();
                 await _repository.InsertAsync(borrower);
 
                 var book = await _bookRepository.GetAsync(input.BookId);
@@ -69,7 +74,6 @@ namespace Library.Borrowers
                     .ThenInclude(x => x.Department)
                 .Include(x => x.Student)
                     .ThenInclude(x => x.Department)
-                .Where(x => x.Id == input.Id)
                 .Select(x => ObjectMapper.Map<BorrowerDto>(x))
                 .FirstOrDefaultAsync();
 
@@ -96,6 +100,8 @@ namespace Library.Borrowers
             try
             {
                 var borrower = ObjectMapper.Map<Borrower>(input);
+                //borrower.BorrowDate = input.BorrowDate.ToLocalTime();
+                //borrower.ExpectedReturnDate = input.ExpectedReturnDate.ToLocalTime();
                 await _repository.UpdateAsync(borrower);
 
                 var book = await _bookRepository.GetAsync(input.BookId);
@@ -118,6 +124,14 @@ namespace Library.Borrowers
         public override Task<BorrowerDto> GetAsync(EntityDto<int> input)
         {
             return base.GetAsync(input);
+        }
+
+        protected override IQueryable<Borrower> CreateFilteredQuery(PagedBorrowerResultRequestDto input)
+        {
+            return Repository.GetAll()
+                .Include(x => x.Book)
+                .Include(x => x.Student)
+               .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.Book.BookTitle.Contains(input.Keyword) || x.Student.StudentName.Contains(input.Keyword));
         }
     }
 }
