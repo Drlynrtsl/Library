@@ -48,7 +48,7 @@ autocomplete="off"
                 [controlEl]="borrowDateEl"></abp-validation-summary>
             </div>
         </div>
-        <div *ngIf="borrower.id!=0 && borrower.book?.isBorrowed" class="form-group row required">
+        <div *ngIf="borrower.id !==0 && borrower.book?.isBorrowed" class="form-group row required">
             <label for="returnDate" class="col-md-3 col-form-label">
                 {{"Return Date" | localize}}
             </label>

@@ -45,7 +45,9 @@ namespace Library.Students
         protected override IQueryable<Student> CreateFilteredQuery(PagedStudentResultRequestDto input)
         {
             return Repository.GetAllIncluding(x => x.Department)
+                .Where(x => x.DepartmentId == x.DepartmentId)
                 .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.StudentName.Contains(input.Keyword) || x.StudentEmail.Contains(input.Keyword) || x.StudentContactNumber.Contains(input.Keyword) || x.Department.Name.Contains(input.Keyword));
+                
         }
     }
 }

@@ -6,7 +6,6 @@ import {
 } from "@shared/paged-listing-component-base";
 import {
   BookCategoryDto,
-  BookCategoryServiceProxy,
   BookDto,
   BookDtoPagedResultDto,
   BookServiceProxy,

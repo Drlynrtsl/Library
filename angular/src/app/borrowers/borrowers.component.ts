@@ -12,6 +12,7 @@ import {
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { finalize } from "rxjs/operators";
 import { CreateEditBorrowerModalComponent } from "./create-edit-borrowers-modal/create-edit-borrower-modal.component";
+import * as moment from "moment";
 
 class PagedBorrowersRequestDto extends PagedRequestDto {
   keyword: string;
@@ -22,12 +23,14 @@ class PagedBorrowersRequestDto extends PagedRequestDto {
   selector: "borrower",
   templateUrl: "./borrowers.component.html",
   animations: [appModuleAnimation()],
+  
 })
 export class BorrowersComponent extends PagedListingComponentBase<BorrowerDto> {
   borrowers: BorrowerDto[] = [];
   id: number;
   keyword = "";
   isActive: boolean | null;
+  today = new Date();
 
   constructor(
     injector: Injector,
@@ -44,6 +47,12 @@ export class BorrowersComponent extends PagedListingComponentBase<BorrowerDto> {
   editBorrower(id) {
     this.showCreateOrEditBorrowerModal(id);
   }
+
+ /*  onLateReturnedBook(borrower:BorrowerDto){
+    if((!borrower.book.isBorrowed && borrower.returnDate > borrower.expectedReturnDate) || (borrower.book.isBorrowed && borrower.expectedReturnDate < moment(this.today))){
+
+    }
+  } */
 
   protected list(
     request: PagedBorrowersRequestDto,

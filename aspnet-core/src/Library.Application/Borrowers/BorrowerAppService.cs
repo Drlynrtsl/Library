@@ -33,8 +33,8 @@ namespace Library.Borrowers
             try
             {
                 var borrower = ObjectMapper.Map<Borrower>(input);
-                borrower.BorrowDate = input.BorrowDate.ToLocalTime();
-                borrower.ExpectedReturnDate = input.ExpectedReturnDate.ToLocalTime();
+                //borrower.BorrowDate = input.BorrowDate.ToLocalTime();
+                //borrower.ExpectedReturnDate = input.ExpectedReturnDate.ToLocalTime();
                 await _repository.InsertAsync(borrower);
 
                 var book = await _bookRepository.GetAsync(input.BookId);
@@ -105,7 +105,7 @@ namespace Library.Borrowers
                 await _repository.UpdateAsync(borrower);
 
                 var book = await _bookRepository.GetAsync(input.BookId);
-                if (input.ReturnDate.HasValue)
+                if (input.ReturnDate.HasValue && input.Id !=0)
                 {
                     book.IsBorrowed = false;
                 }

@@ -57,7 +57,10 @@
                                     itemsPerPage: pageSize,
                                     currentPage: pageNumber,
                                     totalItems: totalItems
-                                    }  ">
+                                    }  "
+                                    [style.backgroundColor]="(!borrower.book.isBorrowed && borrower.returnDate > borrower.expectedReturnDate) || (borrower.book.isBorrowed && borrower.expectedReturnDate < today) ? 'red' : 'none'"
+                                    [style.color]="(!borrower.book.isBorrowed && borrower.returnDate > borrower.expectedReturnDate) || (borrower.book.isBorrowed && borrower.expectedReturnDate < today) ? 'white' : 'none'">
+                                    
                                         <td>{{ borrower.id }}</td>
                                         <td>{{ borrower.borrowDate | date: 'MM/dd/yyyy'}}</td>
                                         <td>{{ borrower.expectedReturnDate | date: 'MM/dd/yyyy'}}</td>

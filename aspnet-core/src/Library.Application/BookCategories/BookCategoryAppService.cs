@@ -43,8 +43,7 @@ namespace Library.BookCategories
         protected override IQueryable<BookCategory> CreateFilteredQuery(PagedBookCategoryResultRequestDto input)
         {
             return Repository.GetAll()
-                .Include ( x=>x.Department)
-            .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.Name.Contains(input.Keyword) || x.Department.Name.Contains(input.Keyword));
+            .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.Name.Contains(input.Keyword));
         }
 
     }

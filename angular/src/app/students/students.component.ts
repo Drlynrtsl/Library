@@ -18,6 +18,7 @@ import { CreateEditStudentModalComponent } from './create-edit-student-modal/cre
 class PagedStudentsRequestDto extends PagedRequestDto {
   keyword: string;
   isActive: boolean | null;
+  
 }
 
 @Component({
@@ -30,6 +31,7 @@ export class StudentsComponent extends PagedListingComponentBase<StudentDto> {
   keyword = '';
   isActive: boolean | null;
   departments: DepartmentDto[] = [];
+  advancedFiltersVisible = false;
 
   constructor(
     injector: Injector,
@@ -38,6 +40,19 @@ export class StudentsComponent extends PagedListingComponentBase<StudentDto> {
     private _modalService: BsModalService
   ) {
     super(injector);
+  }
+
+  createStudent(): void {
+    this.showCreateOrEditStudentmodal();
+  }
+  editStudent(student: StudentDto): void {
+    this.showCreateOrEditStudentmodal(student.id);
+  }
+
+  clearFilters(): void {
+    this.keyword = '';
+    this.isActive = undefined;
+    this.getDataPage(1);
   }
 
   protected list(
@@ -61,13 +76,6 @@ export class StudentsComponent extends PagedListingComponentBase<StudentDto> {
       .subscribe((result: StudentDtoPagedResultDto) => {
         this.students = result.items;
         this.showPaging(result, pageNumber);
-
-        this._departmentService.getAllDepartments().subscribe(departments => {
-          this.students.forEach(student => {
-            const department = departments.find(d => d.id === student.departmentId);
-              student.department = department;
-          })
-        });
       });
   }
 
@@ -84,13 +92,6 @@ export class StudentsComponent extends PagedListingComponentBase<StudentDto> {
         }
       }
     );
-  }
-
-  createStudent() {
-    this.showCreateOrEditStudentmodal();
-  }
-  editStudent(id) {
-    this.showCreateOrEditStudentmodal(id);
   }
 
   private showCreateOrEditStudentmodal(id?: number): void {

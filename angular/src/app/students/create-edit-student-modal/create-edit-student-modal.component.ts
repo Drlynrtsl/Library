@@ -41,7 +41,7 @@ export class CreateEditStudentModalComponent
 
   ngOnInit(): void {
     if (this.id) {
-      this._studentService.get(this.id).subscribe((res) => {
+      this._studentService.get(this.id).subscribe((res: StudentDto) => {
         this.student = res;
         this.selectedDepartment = this.student.departmentId;
       });
