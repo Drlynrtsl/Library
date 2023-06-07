@@ -44,6 +44,7 @@
                                         <th>{{ "Borrow Date" | localize }}</th>
                                         <th>{{ "Expected Return Date" | localize }}</th>
                                         <th>{{ "Return Date" | localize }}</th>
+                                        <th>{{ "Department" | localize }}</th>
                                         <th>{{ "Book Title" | localize }}</th>
                                         <th>{{ "Student Name" | localize }}</th>
                                         <th>{{ "Remarks" | localize }}</th>
@@ -58,13 +59,13 @@
                                     currentPage: pageNumber,
                                     totalItems: totalItems
                                     }  "
-                                    [style.backgroundColor]="(!borrower.book.isBorrowed && borrower.returnDate > borrower.expectedReturnDate) || (borrower.book.isBorrowed && borrower.expectedReturnDate < today) ? 'red' : 'none'"
-                                    [style.color]="(!borrower.book.isBorrowed && borrower.returnDate > borrower.expectedReturnDate) || (borrower.book.isBorrowed && borrower.expectedReturnDate < today) ? 'white' : 'none'">
+                                    [ngStyle]="{'background-color': (!borrower.book.isBorrowed && borrower.returnDate > borrower.expectedReturnDate) || (borrower.book.isBorrowed && borrower.expectedReturnDate < today) ? 'red' : 'transparent'}">
                                     
                                         <td>{{ borrower.id }}</td>
                                         <td>{{ borrower.borrowDate | date: 'MM/dd/yyyy'}}</td>
                                         <td>{{ borrower.expectedReturnDate | date: 'MM/dd/yyyy'}}</td>
                                         <td>{{ borrower.returnDate | date: 'MM/dd/yyyy'}}</td>
+                                        <td>{{ borrower.student?.department?.name }}</td>
                                         <td>{{ borrower.book?.bookTitle }}</td>
                                         <td>{{ borrower.student?.studentName }}</td>
                                         <td *ngIf="!borrower.book?.isBorrowed; else IsBorrowed">Returned</td>

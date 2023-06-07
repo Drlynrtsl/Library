@@ -16,7 +16,7 @@ using Abp.Extensions;
 
 namespace Library.Borrowers
 {
-    public class BorrowerAppService : AsyncCrudAppService<Borrower, BorrowerDto, int, PagedBorrowerResultRequestDto, CreateBorrowerDto, BorrowerDto>
+    public class BorrowerAppService : AsyncCrudAppService<Borrower, BorrowerDto, int, PagedBorrowerResultRequestDto, CreateBorrowerDto, BorrowerDto>, IBorrowerAppService
     {
         private readonly IRepository<Borrower, int> _repository;
         private readonly IRepository<Book, int> _bookRepository;
@@ -74,6 +74,7 @@ namespace Library.Borrowers
                     .ThenInclude(x => x.Department)
                 .Include(x => x.Student)
                     .ThenInclude(x => x.Department)
+                    .Where(x => x.Id == input.Id)
                 .Select(x => ObjectMapper.Map<BorrowerDto>(x))
                 .FirstOrDefaultAsync();
 
@@ -105,7 +106,7 @@ namespace Library.Borrowers
                 await _repository.UpdateAsync(borrower);
 
                 var book = await _bookRepository.GetAsync(input.BookId);
-                if (input.ReturnDate.HasValue && input.Id !=0)
+                if (input.ReturnDate.HasValue)
                 {
                     book.IsBorrowed = false;
                 }

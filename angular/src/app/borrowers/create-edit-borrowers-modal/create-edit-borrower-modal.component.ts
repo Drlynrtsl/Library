@@ -34,6 +34,8 @@ export class CreateEditBorrowerModalComponent
   selectedStudent: number = null;
   today = new Date();
   isUTC = true;
+  noBooksAvailable: string;
+  noStudentsAvailable: string;
 
   @Output() onSave = new EventEmitter<any>();
 
@@ -59,34 +61,27 @@ export class CreateEditBorrowerModalComponent
         this.borrower.expectedReturnDate = this.formatDate(
           res.expectedReturnDate
         );
+
+        if (this.id > 0) {
+          this._borrowerService
+            .getBorrowWithBookAndStudentUnderBookCategory(this.id)
+            .subscribe((res: BorrowerDto) => {
+              this.borrower.id = res.id;
+              this.borrower.bookId = res.bookId;
+              this.borrower.borrowDate = this.formatDate(res.borrowDate);
+              this.borrower.expectedReturnDate = this.formatDate(
+                res.expectedReturnDate
+              );
+            });
+        }
       });
-
-      if (this.id != 0) {
-        this._borrowerService
-          .getBorrowWithBookAndStudentUnderBookCategory(this.id)
-          .subscribe((res: BorrowerDto) => {
-            this.borrower = res;
-            this.borrower.id = res.id;
-            this.selectedBook = res.bookId;
-            this.selectedStudent = res.studentId;
-            this.borrower.borrowDate = this.formatDate(res.borrowDate);
-            this.borrower.expectedReturnDate = this.formatDate(
-              res.expectedReturnDate
-            );
-          });
-
-        this._bookService.getAllBooks().subscribe((result1) => {
-          this.books = result1;
-        });
-      }
     }
 
-    this._bookService.getAllAvailableBooks().subscribe((result2) => {
-      this.books = result2;
+    this._bookService.getAllAvailableBooks().subscribe((res) => {
+      this.books = res;
     });
-
-    this._studentService.getAllStudents().subscribe((result) => {
-      this.students = result;
+    this._studentService.getAllStudents().subscribe((res) => {
+      this.students = res;
     });
 
     //Add 7 days from BorrowDate
@@ -109,23 +104,25 @@ export class CreateEditBorrowerModalComponent
     return date;
   }
 
-  onStudentChange() {
+  onStudentChange(event) {
+    this.selectedStudent = event;
     if (this.selectedStudent) {
       this._borrowerService
         .getAllBooksByStudentId(this.selectedStudent)
         .subscribe((res) => {
           this.books = res;
           this.borrower.bookId = this.selectedBook;
-          if (this.books && this.books.length) {
+          if (this.books && this.books.length !== 0) {
+            this.selectedBook = null;
+          } else {
           }
-        });
+      });
     }
   }
 
   save(): void {
     this.isUTC = false;
     this.saving = true;
-    this.borrower.id = this.id;
     this.borrower.bookId = this.selectedBook;
     this.borrower.studentId = this.selectedStudent;
 
@@ -139,9 +136,12 @@ export class CreateEditBorrowerModalComponent
       this.borrower.returnDate = moment(this.borrower.returnDate);
     }
 
-    if (this.id != 0) {
+    this.borrower.id = this.id;
+
+    if (this.id > 0) {
       this._borrowerService.update(this.borrower).subscribe(
         () => {
+          this.id = this.borrower.id;
           this.notify.info(this.l("SavedSuccessfully"));
           this.bsModalRef.hide();
           this.onSave.emit();
