@@ -95,8 +95,7 @@ autocomplete="off"
                 name="bookTitle"
                 id="bookTitle"
                 required            
-                [ngModel]="selectedBook"     
-                (ngModelChange)="selectedBook=$event"          
+                [ngModel]="selectedBook"       
                 >
                 <option class="dropdown-item" disabled selected [ngValue]="null"><strong>Select a Book</strong></option>
                 <option class="dropdown-item" *ngFor="let book of books"

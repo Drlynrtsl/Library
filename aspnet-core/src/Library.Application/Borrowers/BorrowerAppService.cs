@@ -68,12 +68,12 @@ namespace Library.Borrowers
 
         public async Task<BorrowerDto> GetBorrowWithBookAndStudentUnderBookCategory(EntityDto<int> input)
         {
-            var query = await _repository.GetAll()                
-                .Include(x => x.Book)
-                    .ThenInclude(x => x.BookCategory)
-                    .ThenInclude(x => x.Department)
+            var query = await _repository.GetAll()
                 .Include(x => x.Student)
                     .ThenInclude(x => x.Department)
+                .Include(x => x.Book)
+                    .ThenInclude(x => x.BookCategory)
+                    .ThenInclude(x => x.Department)                
                     .Where(x => x.Id == input.Id)
                 .Select(x => ObjectMapper.Map<BorrowerDto>(x))
                 .FirstOrDefaultAsync();

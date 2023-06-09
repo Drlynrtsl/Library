@@ -59,7 +59,8 @@
                                     currentPage: pageNumber,
                                     totalItems: totalItems
                                     }  "
-                                    [ngStyle]="{'background-color': (!borrower.book.isBorrowed && borrower.returnDate > borrower.expectedReturnDate) || (borrower.book.isBorrowed && borrower.expectedReturnDate < today) ? 'red' : 'transparent'}">
+                                    [ngStyle]="{'background-color': (!borrower.book.isBorrowed && borrower.returnDate > borrower.expectedReturnDate) || (borrower.book.isBorrowed && borrower.expectedReturnDate < today) ? 'red' : 'transparent', 
+                                    'color':(!borrower.book.isBorrowed && borrower.returnDate > borrower.expectedReturnDate) || (borrower.book.isBorrowed && borrower.expectedReturnDate < today) ? 'white' : 'black'}">
                                     
                                         <td>{{ borrower.id }}</td>
                                         <td>{{ borrower.borrowDate | date: 'MM/dd/yyyy'}}</td>

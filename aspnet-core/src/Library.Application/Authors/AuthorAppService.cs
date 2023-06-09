@@ -37,12 +37,6 @@ namespace Library.Authors
             return Repository.GetAll()
             .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.Name.Contains(input.Keyword));
         }
-
-        protected override Task<Author> GetEntityByIdAsync(int id)
-        {
-            return base.GetEntityByIdAsync(id);
-        }
-
         public async Task<List<AuthorDto>> GetAllAuthors()
         {
             var query = await _repository.GetAllListAsync();

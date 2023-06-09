@@ -16,11 +16,9 @@ namespace Library.Books
     public class BookAppService : AsyncCrudAppService<Book, BookDto, int, PagedBookResultRequestDto, CreateBookDto, BookDto>, IBookAppService
     {
         private readonly IRepository<Book, int> _repository;
-        private readonly IRepository<Student, int> _studentRepository;
-        public BookAppService(IRepository<Book, int> repository, IRepository<Student, int> studentRepository) : base(repository)
+        public BookAppService(IRepository<Book, int> repository) : base(repository)
         {
             _repository = repository;
-            _studentRepository = studentRepository;
         }
 
 
@@ -38,8 +36,6 @@ namespace Library.Books
         public async Task<List<BookDto>> GetAllAvailableBooks()
         {
            var query = await _repository.GetAll()
-                .Include(x => x.BookCategory)
-                .Include(x => x.Author)
                 .Where(x => !x.IsBorrowed)
                 .Select(x => ObjectMapper.Map<BookDto>(x))
                 .ToListAsync();

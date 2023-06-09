@@ -66,8 +66,6 @@ export class CreateEditBorrowerModalComponent
           this._borrowerService
             .getBorrowWithBookAndStudentUnderBookCategory(this.id)
             .subscribe((res: BorrowerDto) => {
-              this.borrower.id = res.id;
-              this.borrower.bookId = res.bookId;
               this.borrower.borrowDate = this.formatDate(res.borrowDate);
               this.borrower.expectedReturnDate = this.formatDate(
                 res.expectedReturnDate
@@ -105,26 +103,35 @@ export class CreateEditBorrowerModalComponent
   }
 
   onStudentChange(event) {
-    this.selectedStudent = event;
-    if (this.selectedStudent) {
+    this.selectedStudent = event.target.value;
+    if (this.selectedStudent) { 
       this._borrowerService
         .getAllBooksByStudentId(this.selectedStudent)
-        .subscribe((res) => {
+        .subscribe((res: BookDto[]) => {
           this.books = res;
-          this.borrower.bookId = this.selectedBook;
-          if (this.books && this.books.length !== 0) {
-            this.selectedBook = null;
+          this.selectedBook = null;
+          
+          /* if (this.books && this.books.length !== 0) {
+            this.books.unshift({id: '', bookTitle: '--select book--'});
+            this.borrower.bookId = this.selectedBook;
+            this.isBookDisabled = false;
           } else {
-          }
+            this.books = [{id:'', bookTitle: ''}];
+            this.borrower.bookId = null;
+            this.isBookDisabled = true;
+            this.isSaveDisabled = true;
+          } */
       });
-    }
+    }/* else{
+      this.books = [{id: -1 , bookTitle: 'No Student Available'}];
+    } */
   }
 
   save(): void {
     this.isUTC = false;
-    this.saving = true;
+    this.saving = true;/* 
     this.borrower.bookId = this.selectedBook;
-    this.borrower.studentId = this.selectedStudent;
+    this.borrower.studentId = this.selectedStudent; */
 
     this.borrower.borrowDate = moment.utc(this.borrower.borrowDate);
     this.borrower.expectedReturnDate = moment.utc(
@@ -136,12 +143,11 @@ export class CreateEditBorrowerModalComponent
       this.borrower.returnDate = moment(this.borrower.returnDate);
     }
 
-    this.borrower.id = this.id;
+    /* this.borrower.id = this.id; */
 
     if (this.id > 0) {
       this._borrowerService.update(this.borrower).subscribe(
         () => {
-          this.id = this.borrower.id;
           this.notify.info(this.l("SavedSuccessfully"));
           this.bsModalRef.hide();
           this.onSave.emit();
