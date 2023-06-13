@@ -132,7 +132,9 @@ namespace Library.Borrowers
             return Repository.GetAll()
                 .Include(x => x.Book)
                 .Include(x => x.Student)
-               .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.Book.BookTitle.Contains(input.Keyword) || x.Student.StudentName.Contains(input.Keyword));
+               .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.BorrowDate.ToString().Contains(input.Keyword) || x.Book.BookTitle.ToString().Contains(input.Keyword) || x.Student.StudentName.Contains(input.Keyword));
         }
+
+       
     }
 }

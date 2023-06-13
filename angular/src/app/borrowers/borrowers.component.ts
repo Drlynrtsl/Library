@@ -31,6 +31,8 @@ export class BorrowersComponent extends PagedListingComponentBase<BorrowerDto> {
   keyword = "";
   isActive: boolean | null;
   today = new Date();
+  isBorrowed = true;
+  borrower = new BorrowerDto();
 
   constructor(
     injector: Injector,
@@ -47,12 +49,6 @@ export class BorrowersComponent extends PagedListingComponentBase<BorrowerDto> {
   editBorrower(id) {
     this.showCreateOrEditBorrowerModal(id);
   }
-
- /*  onLateReturnedBook(borrower:BorrowerDto){
-    if((!borrower.book.isBorrowed && borrower.returnDate > borrower.expectedReturnDate) || (borrower.book.isBorrowed && borrower.expectedReturnDate < moment(this.today))){
-
-    }
-  } */
 
   protected list(
     request: PagedBorrowersRequestDto,

@@ -62,10 +62,12 @@ export class CreateEditBorrowerModalComponent
           res.expectedReturnDate
         );
 
-        if (this.id > 0) {
+        if (this.id != 0) {
           this._borrowerService
             .getBorrowWithBookAndStudentUnderBookCategory(this.id)
             .subscribe((res: BorrowerDto) => {
+              this.borrower.bookId = this.selectedBook;
+              this.selectedBook = res.book.id;
               this.borrower.borrowDate = this.formatDate(res.borrowDate);
               this.borrower.expectedReturnDate = this.formatDate(
                 res.expectedReturnDate
@@ -103,19 +105,19 @@ export class CreateEditBorrowerModalComponent
   }
 
   onStudentChange(event) {
-    this.selectedStudent = event.target.value;
+    this.selectedStudent = event;
     if (this.selectedStudent) { 
       this._borrowerService
         .getAllBooksByStudentId(this.selectedStudent)
         .subscribe((res: BookDto[]) => {
           this.books = res;
-          this.selectedBook = null;
+          /* this.selectedBook = null; */
           
-          /* if (this.books && this.books.length !== 0) {
-            this.books.unshift({id: '', bookTitle: '--select book--'});
+          if (this.books && this.books.length !== 0) {
+            /* this.books.unshift({id: '', bookTitle: '--select book--'}); */
             this.borrower.bookId = this.selectedBook;
-            this.isBookDisabled = false;
-          } else {
+            /* this.isBookDisabled = false; */
+          } /* else {
             this.books = [{id:'', bookTitle: ''}];
             this.borrower.bookId = null;
             this.isBookDisabled = true;
@@ -129,15 +131,14 @@ export class CreateEditBorrowerModalComponent
 
   save(): void {
     this.isUTC = false;
-    this.saving = true;/* 
+    this.saving = true;
     this.borrower.bookId = this.selectedBook;
-    this.borrower.studentId = this.selectedStudent; */
+    this.borrower.studentId = this.selectedStudent;
 
     this.borrower.borrowDate = moment.utc(this.borrower.borrowDate);
     this.borrower.expectedReturnDate = moment.utc(
       this.borrower.expectedReturnDate
     );
-    /*   this.borrower.returnDate = moment.utc(this.borrower.returnDate); */
 
     if (this.borrower.returnDate) {
       this.borrower.returnDate = moment(this.borrower.returnDate);

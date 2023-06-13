@@ -2,10 +2,29 @@
     <section class="content-header">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-6">
-                    <h1>{{ "Book Category" | localize }}</h1>
+                <div class="col-lg-6 col-6">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h1><strong>{{ "Book Categories" | localize }}</strong></h1>
+                            <p>Dahsboard</p>
+                            <div class="icon">
+                                <i class="fa fa-bars"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-6 text-right">
+                <div class="col-lg-6 col-6">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h1><strong>{{ totalItems }}</strong></h1>
+                            <p>Total Count</p>
+                            <div class="icon">
+                                <i class="fa fa-line-chart"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 text-right">
                     <a href="javascript:;" class="btn bg-blue" (click)="createBookCategory()">
                         <i class="fa fa-plus-square"></i>
                         {{ "Create" | localize }}
@@ -77,17 +96,12 @@
         </div>
         <div class="card-footer table-card-footer bg-light border-top">
             <div class="row">
-                <div class="col-sm-4 col-12 text-sm-left text-center">
+                <div class="col-sm-6 col-12 text-sm-left text-center">
                     <button class="btn btn-secondary" (click)="refresh()">
                         <i class="fas fa-redo-alt"></i>
                     </button>
                 </div>
-                <div class="col-sm-4 col-12 text-center">
-                    <p class="mb-0 my-2">
-                        {{ "TotalRecordsCount" | localize: totalItems }}
-                    </p>
-                </div>
-                <div class="col-sm-4 col-12">
+                <div class="col-sm-6 col-12">
                     <div class="float-sm-right m-auto">
                         <abp-pagination-controls id="server" (pageChange)="getDataPage($event)">
                         </abp-pagination-controls>
