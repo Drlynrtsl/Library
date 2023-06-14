@@ -8,7 +8,7 @@ import {
 import { AppComponentBase } from "@shared/app-component-base";
 import {
   AuthorDto,
-  AuthorServiceProxy,
+  AuthorServiceProxy
 } from "@shared/service-proxies/service-proxies";
 import { BsModalRef } from "ngx-bootstrap/modal";
 
@@ -36,7 +36,9 @@ export class CreateEditAuthorModalComponent
 
   ngOnInit(): void {
     if (this.id) {
-      this._authorService.get(this.id).subscribe((res) => {
+      this._authorService
+      .get(this.id)
+      .subscribe((res) => {
         this.author = res;
       });
     }

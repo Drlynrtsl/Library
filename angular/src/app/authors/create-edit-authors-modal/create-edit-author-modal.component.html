@@ -3,28 +3,31 @@
   autocomplete="off"
   #createDepartmentModal="ngForm"
   (ngSubmit)="save()">
-  <abp-modal-header [title]="'CreateNew' | localize" 
+  <abp-modal-header 
+  [title]="'CreateNew' | localize" 
   (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">
         <div class="form-group row required">
-          <label class="col-md-3 col-form-label" for="name">
+          <label 
+          class="col-md-3 col-form-label" 
+          for="authorName">
             {{ "Name" | localize }}
           </label>
           <div class="col-md-9">
             <input
               type="text"
               class="form-control"
-              name="name"
-              id="name"
+              name="authorName"
+              id="authorName"
               required
               [(ngModel)]="author.name"
-              #nameModel="ngModel"
-              #nameEl
+              #authorNameModel="ngModel"
+              #authorNameEl
             />
             <abp-validation-summary
-              [control]="nameModel"
-              [controlEl]="nameEl"
+              [control]="authorNameModel"
+              [controlEl]="authorNameEl"
             ></abp-validation-summary>
           </div>
         </div>

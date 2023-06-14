@@ -129,9 +129,7 @@ namespace Library.Borrowers
 
         protected override IQueryable<Borrower> CreateFilteredQuery(PagedBorrowerResultRequestDto input)
         {
-            return Repository.GetAll()
-                .Include(x => x.Book)
-                .Include(x => x.Student)
+            return Repository.GetAllIncluding(x => x.Book, x => x.Student)
                .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.BorrowDate.ToString().Contains(input.Keyword) || x.Book.BookTitle.ToString().Contains(input.Keyword) || x.Student.StudentName.Contains(input.Keyword));
         }
 

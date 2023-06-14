@@ -28,6 +28,7 @@ namespace Library.Students
         {
             var query = await _repository.GetAll()
                 .Include(x=> x.Department)
+                .OrderByDescending(x => x.Id)
                 .Select( x => ObjectMapper.Map<StudentDto>(x))
                 .ToListAsync();
 

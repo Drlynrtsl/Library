@@ -56,7 +56,10 @@ export class BookCategoriesComponent extends PagedListingComponentBase<BookCateg
     request.isActive = this.isActive;
 
     this._bookCategoryService
-      .getAll(request.keyword, request.skipCount, request.maxResultCount)
+      .getAll(
+        request.keyword, 
+        request.skipCount, 
+        request.maxResultCount)
       .pipe(
         finalize(() => {
           finishedCallback();

@@ -12,7 +12,6 @@ import {
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { finalize } from "rxjs/operators";
 import { CreateEditBorrowerModalComponent } from "./create-edit-borrowers-modal/create-edit-borrower-modal.component";
-import * as moment from "moment";
 
 class PagedBorrowersRequestDto extends PagedRequestDto {
   keyword: string;
@@ -23,7 +22,6 @@ class PagedBorrowersRequestDto extends PagedRequestDto {
   selector: "borrower",
   templateUrl: "./borrowers.component.html",
   animations: [appModuleAnimation()],
-  
 })
 export class BorrowersComponent extends PagedListingComponentBase<BorrowerDto> {
   borrowers: BorrowerDto[] = [];
@@ -65,12 +63,12 @@ export class BorrowersComponent extends PagedListingComponentBase<BorrowerDto> {
           finishedCallback();
         })
       )
-      .subscribe((result:BorrowerDtoPagedResultDto) =>{
+      .subscribe((result: BorrowerDtoPagedResultDto) => {
         this.borrowers = result.items;
         this.showPaging(result, pageNumber);
       });
   }
-  
+
   protected delete(borrower: BorrowerDto): void {
     abp.message.confirm(
       this.l("BookCategoryDeleteWarningMessage", borrower.borrowDate),
@@ -96,7 +94,7 @@ export class BorrowersComponent extends PagedListingComponentBase<BorrowerDto> {
         }
       );
     } else {
-        createOrEditBorrowerModal = this._modalService.show(
+      createOrEditBorrowerModal = this._modalService.show(
         CreateEditBorrowerModalComponent,
         {
           class: "modal-lg",
@@ -111,5 +109,4 @@ export class BorrowersComponent extends PagedListingComponentBase<BorrowerDto> {
       this.refresh();
     });
   }
-
 }

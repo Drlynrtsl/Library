@@ -8,23 +8,23 @@
   ></abp-modal-header>
   <div class="modal-body">
         <div class="form-group row required">
-          <label class="col-md-3 col-form-label" for="name">
+          <label class="col-md-3 col-form-label" for="departmentName">
             {{ "Name" | localize }}
           </label>
           <div class="col-md-9">
             <input
               type="text"
               class="form-control"
-              name="name"
-              id="name"
+              name="departmentName"
+              id="departmentName"
               required
               [(ngModel)]="department.name"
-              #nameModel="ngModel"
-              #nameEl
+              #departmentNameModel="ngModel"
+              #departmentNameEl
             />
             <abp-validation-summary
-              [control]="nameModel"
-              [controlEl]="nameEl"
+              [control]="departmentNameModel"
+              [controlEl]="departmentNameEl"
             ></abp-validation-summary>
           </div>
         </div>

@@ -49,7 +49,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
             new MenuItem(this.l('Book'), '/app/books', 'fa fa-book'),
             new MenuItem(this.l('Author'), '/app/authors', 'fa fa-users'),
             new MenuItem(this.l('Borrower'), '/app/borrowers', 'fa fa-bookmark'),
-            new MenuItem(this.l('About'), '/app/about', 'fas fa-info-circle'),
+            /* new MenuItem(this.l('About'), '/app/about', 'fas fa-info-circle'),
             new MenuItem(this.l('HomePage'), '/app/home', 'fas fa-home'),
             new MenuItem(
                 this.l('Roles'),
@@ -119,7 +119,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                         'far fa-circle'
                     )
                 ])
-            ])
+            ]) */
         ];
     }
 

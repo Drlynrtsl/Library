@@ -8,7 +8,6 @@ import {
   StudentDto,
   StudentServiceProxy,
   StudentDtoPagedResultDto,
-  DepartmentServiceProxy,
   DepartmentDto
 } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
@@ -36,7 +35,6 @@ export class StudentsComponent extends PagedListingComponentBase<StudentDto> {
   constructor(
     injector: Injector,
     private _studentService: StudentServiceProxy,
-    private _departmentService: DepartmentServiceProxy,
     private _modalService: BsModalService
   ) {
     super(injector);

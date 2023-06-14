@@ -27,6 +27,7 @@ namespace Library.Books
             var query = await _repository.GetAll()
                 .Include(x => x.BookCategory)
                 .Include(x => x.Author)
+                .OrderByDescending(x => x.Id)
                 .Select(x => ObjectMapper.Map<BookDto>(x))
                 .ToListAsync();
 

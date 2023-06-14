@@ -9,7 +9,9 @@ autocomplete="off"
     </abp-modal-header>
     <div class="modal-body">
         <div class="form-group row required">
-            <label for="borrowDate" class="col-md-3 col-form-label">
+            <label 
+            for="borrowDate" 
+            class="col-md-3 col-form-label">
                 {{"Borrow Date" | localize}}
             </label>
             <div class="col-md-9">
@@ -29,7 +31,9 @@ autocomplete="off"
             </div>
         </div>
         <div class="form-group row required">
-            <label for="expectedReturnDate" class="col-md-3 col-form-label">
+            <label 
+            for="expectedReturnDate" 
+            class="col-md-3 col-form-label">
                 {{"Expected Return Date" | localize}}
             </label>
             <div class="col-md-9">
@@ -49,7 +53,9 @@ autocomplete="off"
             </div>
         </div>
         <div *ngIf="borrower.id > 0" class="form-group row required">
-            <label for="returnDate" class="col-md-3 col-form-label">
+            <label 
+            for="returnDate" 
+            class="col-md-3 col-form-label">
                 {{"Return Date" | localize}}
             </label>
             <div class="col-md-9">
@@ -67,7 +73,9 @@ autocomplete="off"
             </div>
         </div>
         <div class="form-group row required">
-            <label class="col-md-3 col-form-label" for="studentName">
+            <label 
+            class="col-md-3 col-form-label" 
+            for="studentName">
                 {{ "Student Name" | localize }}
             </label>
             <div class="col-md-9">
@@ -79,14 +87,19 @@ autocomplete="off"
                 [ngModel]="selectedStudent"     
                 (ngModelChange)="onStudentChange($event)"          
                 >
-                <option class="dropdown-item" disabled selected [ngValue]="null">Select Student</option>
+                <option class="dropdown-item" 
+                disabled 
+                selected 
+                [ngValue]="null">Select Student</option>
                 <option *ngFor="let student of students"
                 [ngValue]="student.id">{{student.studentName}}</option>
                 </select>
             </div>            
         </div>
         <div class="form-group row required">
-            <label class="col-md-3 col-form-label" for="bookTitle">
+            <label 
+            class="col-md-3 col-form-label" 
+            for="bookTitle">
                 {{ "Book Title" | localize }}
             </label>
             <div class="col-md-9">
@@ -98,8 +111,20 @@ autocomplete="off"
                 [ngModel]="selectedBook"
                 (ngModelChange)="selectedBook=$event"       
                 >
-                <option class="dropdown-item" disabled selected [ngValue]="null"><strong>Select a Book</strong></option>
-                <option class="dropdown-item" *ngFor="let book of books"
+                <option *ngIf="this.books.length !==0; else NoAvailableBooks" 
+                class="dropdown-item" 
+                disabled 
+                selected 
+                [ngValue]="null"><strong>Select a Book</strong></option>
+                <ng-template #NoAvailableBooks>
+                    <option class="dropdown-item" 
+                    disabled="true" 
+                    selected 
+                    [ngValue]="null">No Available Books</option>
+                </ng-template>
+                <option 
+                class="dropdown-item" 
+                *ngFor="let book of books"
                 [ngValue]="book.id">{{book.bookTitle}}</option>
                 </select>
             </div>            

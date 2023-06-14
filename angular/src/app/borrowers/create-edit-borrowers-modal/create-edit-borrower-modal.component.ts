@@ -50,7 +50,7 @@ export class CreateEditBorrowerModalComponent
   }
 
   ngOnInit(): void {
-    this.borrower.borrowDate = this.formatDate(this.today); //Get currentDate
+    this.borrower.borrowDate = this.formatDate(this.today);
 
     if (this.id) {
       this._borrowerService.get(this.id).subscribe((res) => {
@@ -66,12 +66,12 @@ export class CreateEditBorrowerModalComponent
           this._borrowerService
             .getBorrowWithBookAndStudentUnderBookCategory(this.id)
             .subscribe((res: BorrowerDto) => {
-              this.borrower.bookId = this.selectedBook;
-              this.selectedBook = res.book.id;
               this.borrower.borrowDate = this.formatDate(res.borrowDate);
               this.borrower.expectedReturnDate = this.formatDate(
                 res.expectedReturnDate
               );
+              this.books = [res.book];
+              this.students = [res.student];
             });
         }
       });
@@ -84,7 +84,6 @@ export class CreateEditBorrowerModalComponent
       this.students = res;
     });
 
-    //Add 7 days from BorrowDate
     if (this.borrower.borrowDate) {
       const borrowDate = moment(this.borrower.borrowDate);
       this.borrower.expectedReturnDate = this.formatDate(
@@ -93,7 +92,6 @@ export class CreateEditBorrowerModalComponent
     }
   }
 
-  //Date Format "yyyy-mm-dd"
   formatDate(date) {
     var d = new Date(date);
     date = [
@@ -101,32 +99,28 @@ export class CreateEditBorrowerModalComponent
       ("0" + (d.getMonth() + 1)).slice(-2),
       ("0" + d.getDate()).slice(-2),
     ].join("-");
+
     return date;
   }
 
   onStudentChange(event) {
     this.selectedStudent = event;
-    if (this.selectedStudent) { 
+    if (this.selectedStudent) {
       this._borrowerService
         .getAllBooksByStudentId(this.selectedStudent)
         .subscribe((res: BookDto[]) => {
           this.books = res;
-          /* this.selectedBook = null; */
-          
+          this.selectedBook = null;
+
           if (this.books && this.books.length !== 0) {
-            /* this.books.unshift({id: '', bookTitle: '--select book--'}); */
             this.borrower.bookId = this.selectedBook;
-            /* this.isBookDisabled = false; */
-          } /* else {
-            this.books = [{id:'', bookTitle: ''}];
-            this.borrower.bookId = null;
-            this.isBookDisabled = true;
-            this.isSaveDisabled = true;
-          } */
-      });
-    }/* else{
-      this.books = [{id: -1 , bookTitle: 'No Student Available'}];
-    } */
+          } else {
+            this.selectedBook = null;
+          }
+        });
+    } else {
+      this.selectedBook = null;
+    }
   }
 
   save(): void {
@@ -143,8 +137,6 @@ export class CreateEditBorrowerModalComponent
     if (this.borrower.returnDate) {
       this.borrower.returnDate = moment(this.borrower.returnDate);
     }
-
-    /* this.borrower.id = this.id; */
 
     if (this.id > 0) {
       this._borrowerService.update(this.borrower).subscribe(
