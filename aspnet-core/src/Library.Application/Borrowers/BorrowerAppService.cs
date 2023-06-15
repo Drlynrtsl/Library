@@ -130,9 +130,30 @@ namespace Library.Borrowers
         protected override IQueryable<Borrower> CreateFilteredQuery(PagedBorrowerResultRequestDto input)
         {
             return Repository.GetAllIncluding(x => x.Book, x => x.Student)
-               .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.BorrowDate.ToString().Contains(input.Keyword) || x.Book.BookTitle.ToString().Contains(input.Keyword) || x.Student.StudentName.Contains(input.Keyword));
+               .WhereIf(!input.Keyword.IsNullOrWhiteSpace(),
+               x => x.BorrowDate.ToString().Contains(input.Keyword)
+               || x.Book.BookTitle.ToString().Contains(input.Keyword) || x.Student.StudentName.Contains(input.Keyword));
         }
 
-       
+        public async Task<BorrowerDto> UpdateIsBorrowedIfDeleted(BorrowerDto input)
+        {
+
+            var borrower = ObjectMapper.Map<Borrower>(input);
+            await _repository.DeleteAsync(borrower);
+
+            var book = await _bookRepository.GetAsync(input.BookId);
+
+            if (book.IsBorrowed == false)
+            {
+                book.IsBorrowed = false;
+            }
+            else
+            {
+                book.IsBorrowed = true;
+            }
+
+            await _bookRepository.UpdateAsync(book);
+            return base.MapToEntityDto(borrower);
+        }
     }
 }

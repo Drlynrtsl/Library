@@ -16,9 +16,11 @@ namespace Library.Books
     public class BookAppService : AsyncCrudAppService<Book, BookDto, int, PagedBookResultRequestDto, CreateBookDto, BookDto>, IBookAppService
     {
         private readonly IRepository<Book, int> _repository;
-        public BookAppService(IRepository<Book, int> repository) : base(repository)
+        private readonly IRepository<Borrower, int> _borrowerRepository;
+        public BookAppService(IRepository<Book, int> repository, IRepository<Borrower, int> borrowerRepository) : base(repository)
         {
             _repository = repository;
+            _borrowerRepository = borrowerRepository;
         }
 
 
@@ -52,7 +54,7 @@ namespace Library.Books
                  .ToListAsync();
             return query;
 
-        }
+        }       
 
     }
 }

@@ -43,8 +43,8 @@ export class StudentsComponent extends PagedListingComponentBase<StudentDto> {
   createStudent(): void {
     this.showCreateOrEditStudentmodal();
   }
-  editStudent(student: StudentDto): void {
-    this.showCreateOrEditStudentmodal(student.id);
+  editStudent(id): void {
+    this.showCreateOrEditStudentmodal(id);
   }
 
   clearFilters(): void {

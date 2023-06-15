@@ -5,6 +5,7 @@ import {
   PagedRequestDto,
 } from "@shared/paged-listing-component-base";
 import {
+  BookServiceProxy,
   BorrowerDto,
   BorrowerDtoPagedResultDto,
   BorrowerServiceProxy,
@@ -31,10 +32,12 @@ export class BorrowersComponent extends PagedListingComponentBase<BorrowerDto> {
   today = new Date();
   isBorrowed = true;
   borrower = new BorrowerDto();
+  bookId : number = 0;
 
   constructor(
     injector: Injector,
     private _borrowerService: BorrowerServiceProxy,
+    private _bookService: BookServiceProxy,
     private _modalService: BsModalService
   ) {
     super(injector);
@@ -77,7 +80,10 @@ export class BorrowersComponent extends PagedListingComponentBase<BorrowerDto> {
         if (result) {
           this._borrowerService.delete(borrower.id).subscribe(() => {
             abp.notify.success(this.l("SuccessfullyDeleted"));
-            this.refresh();
+              this.refresh();
+            this._borrowerService.updateIsBorrowedIfDeleted(borrower).subscribe(() => { 
+              /* borrower.bookId; */             
+            })
           });
         }
       }
