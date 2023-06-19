@@ -31,12 +31,6 @@ namespace Library.Authors
         {
             return base.GetAsync(input);
         }
-
-        protected override IQueryable<Author> CreateFilteredQuery(PagedAuthorResultRequestDto input)
-        {
-            return Repository.GetAll()
-            .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.Name.Contains(input.Keyword));
-        }
         public async Task<List<AuthorDto>> GetAllAuthors()
         {
             var query = await _repository.GetAllListAsync();

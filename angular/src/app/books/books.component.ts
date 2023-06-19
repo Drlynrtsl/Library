@@ -71,7 +71,7 @@ export class BooksComponent extends PagedListingComponentBase<BookDto> {
 
   protected delete(book: BookDto): void {
     abp.message.confirm(
-      this.l("BookCategoryDeleteWarningMessage", book.bookTitle),
+      this.l("BookDeleteWarningMessage", book.bookTitle),
       undefined,
       (result: boolean) => {
         if (result) {

@@ -5,6 +5,7 @@ import {
   PagedRequestDto,
 } from "@shared/paged-listing-component-base";
 import {
+  BookDto,
   BookServiceProxy,
   BorrowerDto,
   BorrowerDtoPagedResultDto,
@@ -37,7 +38,6 @@ export class BorrowersComponent extends PagedListingComponentBase<BorrowerDto> {
   constructor(
     injector: Injector,
     private _borrowerService: BorrowerServiceProxy,
-    private _bookService: BookServiceProxy,
     private _modalService: BsModalService
   ) {
     super(injector);
@@ -60,7 +60,10 @@ export class BorrowersComponent extends PagedListingComponentBase<BorrowerDto> {
     request.isActive = this.isActive;
 
     this._borrowerService
-      .getAll(request.keyword, request.skipCount, request.maxResultCount)
+      .getAll(
+        request.keyword, 
+        request.skipCount, 
+        request.maxResultCount)
       .pipe(
         finalize(() => {
           finishedCallback();
@@ -74,17 +77,23 @@ export class BorrowersComponent extends PagedListingComponentBase<BorrowerDto> {
 
   protected delete(borrower: BorrowerDto): void {
     abp.message.confirm(
-      this.l("BookCategoryDeleteWarningMessage", borrower.borrowDate),
+      this.l("BorrowerDeleteWarningMessage", borrower.book.bookTitle),
       undefined,
       (result: boolean) => {
         if (result) {
-          this._borrowerService.delete(borrower.id).subscribe(() => {
-            abp.notify.success(this.l("SuccessfullyDeleted"));
+          if (!borrower.returnDate) {
+            this._borrowerService.updateIsBorrowedIfDeleted(borrower).subscribe(() => {
+              this._borrowerService.delete(borrower.id).subscribe(() => {
+                abp.notify.success(this.l("SuccessfullyDeleted"));
+                this.refresh();
+              });
+            });
+          } else {
+            this._borrowerService.delete(borrower.id).subscribe(() => {
+              abp.notify.success(this.l("SuccessfullyDeleted"));
               this.refresh();
-            this._borrowerService.updateIsBorrowedIfDeleted(borrower).subscribe(() => { 
-              /* borrower.bookId; */             
-            })
-          });
+            });
+          }
         }
       }
     );

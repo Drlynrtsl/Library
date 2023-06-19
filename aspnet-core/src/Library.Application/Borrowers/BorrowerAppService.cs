@@ -33,8 +33,6 @@ namespace Library.Borrowers
             try
             {
                 var borrower = ObjectMapper.Map<Borrower>(input);
-                //borrower.BorrowDate = input.BorrowDate.ToLocalTime();
-                //borrower.ExpectedReturnDate = input.ExpectedReturnDate.ToLocalTime();
                 await _repository.InsertAsync(borrower);
 
                 var book = await _bookRepository.GetAsync(input.BookId);
@@ -50,7 +48,6 @@ namespace Library.Borrowers
                 throw e;
             }
         }
-
         public override async Task<PagedResultDto<BorrowerDto>> GetAllAsync(PagedBorrowerResultRequestDto input)
         {
             var query = await _repository.GetAll()
@@ -90,7 +87,7 @@ namespace Library.Borrowers
 
             var books = await _bookRepository
                 .GetAllIncluding(x => x.BookCategory, x => x.BookCategory.Department)
-                .Where(x => x.BookCategory.DepartmentId == student.DepartmentId && !x.IsBorrowed)
+                .Where(x => x.BookCategory.DepartmentId == student.DepartmentId)
                 .ToListAsync();
 
             return ObjectMapper.Map<List<BookDto>>(books);
@@ -101,12 +98,15 @@ namespace Library.Borrowers
             try
             {
                 var borrower = ObjectMapper.Map<Borrower>(input);
-                //borrower.BorrowDate = input.BorrowDate.ToLocalTime();
-                //borrower.ExpectedReturnDate = input.ExpectedReturnDate.ToLocalTime();
                 await _repository.UpdateAsync(borrower);
 
                 var book = await _bookRepository.GetAsync(input.BookId);
+                
                 if (input.ReturnDate.HasValue)
+                {
+                    book.IsBorrowed = true;
+                }
+                else
                 {
                     book.IsBorrowed = false;
                 }
@@ -126,34 +126,16 @@ namespace Library.Borrowers
         {
             return base.GetAsync(input);
         }
-
-        protected override IQueryable<Borrower> CreateFilteredQuery(PagedBorrowerResultRequestDto input)
+        public async Task UpdateIsBorrowedIfDeleted(BorrowerDto input)
         {
-            return Repository.GetAllIncluding(x => x.Book, x => x.Student)
-               .WhereIf(!input.Keyword.IsNullOrWhiteSpace(),
-               x => x.BorrowDate.ToString().Contains(input.Keyword)
-               || x.Book.BookTitle.ToString().Contains(input.Keyword) || x.Student.StudentName.Contains(input.Keyword));
-        }
-
-        public async Task<BorrowerDto> UpdateIsBorrowedIfDeleted(BorrowerDto input)
-        {
-
-            var borrower = ObjectMapper.Map<Borrower>(input);
-            await _repository.DeleteAsync(borrower);
 
             var book = await _bookRepository.GetAsync(input.BookId);
 
-            if (book.IsBorrowed == false)
+            if (!input.ReturnDate.HasValue)
             {
                 book.IsBorrowed = false;
+                await _bookRepository.UpdateAsync(book);
             }
-            else
-            {
-                book.IsBorrowed = true;
-            }
-
-            await _bookRepository.UpdateAsync(book);
-            return base.MapToEntityDto(borrower);
         }
     }
 }

@@ -14,6 +14,6 @@ namespace Library.Books
     {
         Task<PagedResultDto<BookDto>> GetAllAsync(PagedBookResultRequestDto input);
         Task<List<BookDto>> GetAllAvailableBooks();
-        Task<List<BookDto>> GetAllBooks();
+        Task<BookDto> GetUpdateIsBorrowed(BookDto input);
     }
 }

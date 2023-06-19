@@ -111,7 +111,8 @@ autocomplete="off"
                 [ngModel]="selectedBook"
                 (ngModelChange)="selectedBook=$event"       
                 >
-                <option *ngIf="this.books.length !==0; else NoAvailableBooks" 
+                <option 
+                *ngIf="this.books.length !==0; else NoAvailableBooks" 
                 class="dropdown-item" 
                 disabled 
                 selected 

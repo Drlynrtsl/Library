@@ -35,11 +35,5 @@ namespace Library.Departments
             var query = await _repository.GetAllListAsync();
             return ObjectMapper.Map<List<DepartmentDto>>(query);
         }
-
-        protected override IQueryable<Department> CreateFilteredQuery(PagedDepartmentResultRequestDto input)
-        {
-            return Repository.GetAll()
-                .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.Name.Contains(input.Keyword));
-        }
     }
 }

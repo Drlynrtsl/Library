@@ -73,6 +73,9 @@ export class CreateEditBorrowerModalComponent
               this.books = [res.book];
               this.students = [res.student];
             });
+            this._borrowerService.getAllBooksByStudentId(this.selectedStudent).subscribe((res) => {
+              this.books = res;
+            });
         }
       });
     }
@@ -111,8 +114,7 @@ export class CreateEditBorrowerModalComponent
         .subscribe((res: BookDto[]) => {
           this.books = res;
           this.selectedBook = null;
-
-          if (this.books && this.books.length !== 0) {
+          if (this.books) {
             this.borrower.bookId = this.selectedBook;
           } else {
             this.selectedBook = null;

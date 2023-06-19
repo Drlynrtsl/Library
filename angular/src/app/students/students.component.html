@@ -59,19 +59,6 @@
                                 [placeholder]="'SearchWithThreeDot' | localize" 
                                 [(ngModel)]="keyword"
                                 (keyup.enter)="getDataPage(1)" />
-                                    <div class="input-group-append">
-                                        <button
-                                                type="button"
-                                                class="btn btn-default"
-                                                (click)="advancedFiltersVisible = !advancedFiltersVisible"
-                                        >
-                                            <i
-                                                    class="fas"
-                                                    [class.fa-angle-up]="advancedFiltersVisible"
-                                                    [class.fa-angle-down]="!advancedFiltersVisible"
-                                            ></i>
-                                        </button>
-                                    </div>
                             </div>
                         </div>
                     </div>
@@ -98,7 +85,7 @@
                                 itemsPerPage: pageSize,
                                 currentPage: pageNumber,
                                 totalItems: totalItems
-                                }  ">
+                                } | search: keyword: ['studentName', 'studentContactNumber', 'studentEmail', 'department.name'] ">
                                     <td>{{ student.id }}</td>
                                     <td>{{ student.studentName }}</td>
                                     <td>{{ student.studentContactNumber }}</td>

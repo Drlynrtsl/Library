@@ -638,10 +638,74 @@ export class BookServiceProxy {
     }
 
     /**
+     * @param bookTitle (optional) 
+     * @param bookPublisher (optional) 
+     * @param authorId (optional) 
+     * @param author_Name (optional) 
+     * @param author_Id (optional) 
+     * @param isBorrowed (optional) 
+     * @param bookCategoryId (optional) 
+     * @param bookCategory_Name (optional) 
+     * @param bookCategory_DepartmentId (optional) 
+     * @param bookCategory_Department_Id (optional) 
+     * @param bookCategory_Id (optional) 
+     * @param id (optional) 
      * @return Success
      */
-    getAllBooks(): Observable<BookDto[]> {
-        let url_ = this.baseUrl + "/api/services/app/Book/GetAllBooks";
+    getUpdateIsBorrowed(bookTitle: string | undefined, bookPublisher: string | undefined, authorId: number | undefined, author_Name: string | undefined, author_Id: number | undefined, isBorrowed: boolean | undefined, bookCategoryId: number | undefined, bookCategory_Name: string | undefined, bookCategory_DepartmentId: number | undefined, bookCategory_Department_Name: string, bookCategory_Department_Id: number | undefined, bookCategory_Id: number | undefined, id: number | undefined): Observable<BookDto> {
+        let url_ = this.baseUrl + "/api/services/app/Book/GetUpdateIsBorrowed?";
+        if (bookTitle === null)
+            throw new Error("The parameter 'bookTitle' cannot be null.");
+        else if (bookTitle !== undefined)
+            url_ += "BookTitle=" + encodeURIComponent("" + bookTitle) + "&";
+        if (bookPublisher === null)
+            throw new Error("The parameter 'bookPublisher' cannot be null.");
+        else if (bookPublisher !== undefined)
+            url_ += "BookPublisher=" + encodeURIComponent("" + bookPublisher) + "&";
+        if (authorId === null)
+            throw new Error("The parameter 'authorId' cannot be null.");
+        else if (authorId !== undefined)
+            url_ += "AuthorId=" + encodeURIComponent("" + authorId) + "&";
+        if (author_Name === null)
+            throw new Error("The parameter 'author_Name' cannot be null.");
+        else if (author_Name !== undefined)
+            url_ += "Author.Name=" + encodeURIComponent("" + author_Name) + "&";
+        if (author_Id === null)
+            throw new Error("The parameter 'author_Id' cannot be null.");
+        else if (author_Id !== undefined)
+            url_ += "Author.Id=" + encodeURIComponent("" + author_Id) + "&";
+        if (isBorrowed === null)
+            throw new Error("The parameter 'isBorrowed' cannot be null.");
+        else if (isBorrowed !== undefined)
+            url_ += "IsBorrowed=" + encodeURIComponent("" + isBorrowed) + "&";
+        if (bookCategoryId === null)
+            throw new Error("The parameter 'bookCategoryId' cannot be null.");
+        else if (bookCategoryId !== undefined)
+            url_ += "BookCategoryId=" + encodeURIComponent("" + bookCategoryId) + "&";
+        if (bookCategory_Name === null)
+            throw new Error("The parameter 'bookCategory_Name' cannot be null.");
+        else if (bookCategory_Name !== undefined)
+            url_ += "BookCategory.Name=" + encodeURIComponent("" + bookCategory_Name) + "&";
+        if (bookCategory_DepartmentId === null)
+            throw new Error("The parameter 'bookCategory_DepartmentId' cannot be null.");
+        else if (bookCategory_DepartmentId !== undefined)
+            url_ += "BookCategory.DepartmentId=" + encodeURIComponent("" + bookCategory_DepartmentId) + "&";
+        if (bookCategory_Department_Name === undefined || bookCategory_Department_Name === null)
+            throw new Error("The parameter 'bookCategory_Department_Name' must be defined and cannot be null.");
+        else
+            url_ += "BookCategory.Department.Name=" + encodeURIComponent("" + bookCategory_Department_Name) + "&";
+        if (bookCategory_Department_Id === null)
+            throw new Error("The parameter 'bookCategory_Department_Id' cannot be null.");
+        else if (bookCategory_Department_Id !== undefined)
+            url_ += "BookCategory.Department.Id=" + encodeURIComponent("" + bookCategory_Department_Id) + "&";
+        if (bookCategory_Id === null)
+            throw new Error("The parameter 'bookCategory_Id' cannot be null.");
+        else if (bookCategory_Id !== undefined)
+            url_ += "BookCategory.Id=" + encodeURIComponent("" + bookCategory_Id) + "&";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -653,20 +717,20 @@ export class BookServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAllBooks(response_);
+            return this.processGetUpdateIsBorrowed(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAllBooks(response_ as any);
+                    return this.processGetUpdateIsBorrowed(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<BookDto[]>;
+                    return _observableThrow(e) as any as Observable<BookDto>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<BookDto[]>;
+                return _observableThrow(response_) as any as Observable<BookDto>;
         }));
     }
 
-    protected processGetAllBooks(response: HttpResponseBase): Observable<BookDto[]> {
+    protected processGetUpdateIsBorrowed(response: HttpResponseBase): Observable<BookDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -677,14 +741,7 @@ export class BookServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200.push(BookDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = BookDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1640,7 +1697,7 @@ export class BorrowerServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    updateIsBorrowedIfDeleted(body: BorrowerDto | undefined): Observable<BorrowerDto> {
+    updateIsBorrowedIfDeleted(body: BorrowerDto | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Borrower/UpdateIsBorrowedIfDeleted";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1652,7 +1709,6 @@ export class BorrowerServiceProxy {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
             })
         };
 
@@ -1663,14 +1719,14 @@ export class BorrowerServiceProxy {
                 try {
                     return this.processUpdateIsBorrowedIfDeleted(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<BorrowerDto>;
+                    return _observableThrow(e) as any as Observable<void>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<BorrowerDto>;
+                return _observableThrow(response_) as any as Observable<void>;
         }));
     }
 
-    protected processUpdateIsBorrowedIfDeleted(response: HttpResponseBase): Observable<BorrowerDto> {
+    protected processUpdateIsBorrowedIfDeleted(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1679,10 +1735,7 @@ export class BorrowerServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BorrowerDto.fromJS(resultData200);
-            return _observableOf(result200);
+            return _observableOf(null as any);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {

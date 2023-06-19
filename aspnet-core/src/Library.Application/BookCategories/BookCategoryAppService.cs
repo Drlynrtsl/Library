@@ -41,11 +41,5 @@ namespace Library.BookCategories
             return new PagedResultDto<BookCategoryDto>(query.Count(), query);
         }
 
-        protected override IQueryable<BookCategory> CreateFilteredQuery(PagedBookCategoryResultRequestDto input)
-        {
-            return Repository.GetAll()
-            .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.Name.Contains(input.Keyword));
-        }
-
     }
 }
