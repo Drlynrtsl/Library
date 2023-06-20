@@ -12,8 +12,8 @@ namespace Library.Books
 {
     public interface IBookAppService :IAsyncCrudAppService<BookDto, int, PagedBookResultRequestDto, CreateBookDto, BookDto>
     {
-        Task<PagedResultDto<BookDto>> GetAllAsync(PagedBookResultRequestDto input);
+        Task<PagedResultDto<BookDto>> GetAllBookAsync(PagedBookResultRequestDto input);
         Task<List<BookDto>> GetAllAvailableBooks();
-        Task<BookDto> GetUpdateIsBorrowed(BookDto input);
+        Task<BookDto> GetUpdatedBookTitleFromBorrower(EntityDto<int> input);
     }
 }

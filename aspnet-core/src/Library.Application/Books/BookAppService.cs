@@ -22,7 +22,7 @@ namespace Library.Books
         }
 
 
-        public override async Task<PagedResultDto<BookDto>> GetAllAsync(PagedBookResultRequestDto input)
+        public async Task<PagedResultDto<BookDto>> GetAllBookAsync(PagedBookResultRequestDto input)
         {
             var query = await _repository.GetAll()
                 .Include(x => x.BookCategory)
@@ -37,18 +37,17 @@ namespace Library.Books
         public async Task<List<BookDto>> GetAllAvailableBooks()
         {
            var query = await _repository.GetAll()
-                .Where(x => !x.IsBorrowed)
                 .Select(x => ObjectMapper.Map<BookDto>(x))
                 .ToListAsync();
                 return query;            
         }
 
-        public async Task<BookDto> GetUpdateIsBorrowed(BookDto input)
+        public async Task<BookDto> GetUpdatedBookTitleFromBorrower(EntityDto<int> input)
         {
             try
             {
                 var book = await _repository.GetAsync(input.Id);
-                if (book.IsBorrowed)
+                if (book.IsBorrowed == true)
                 {
                     book.IsBorrowed = false;
                 }
@@ -64,6 +63,11 @@ namespace Library.Books
             {
                 throw ex;
             }
+        }
+
+        public override Task<BookDto> UpdateAsync(BookDto input)
+        {
+            return base.UpdateAsync(input);
         }
     }
 }

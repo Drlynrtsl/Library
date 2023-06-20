@@ -519,8 +519,8 @@ export class BookServiceProxy {
      * @param maxResultCount (optional) 
      * @return Success
      */
-    getAll(keyword: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<BookDtoPagedResultDto> {
-        let url_ = this.baseUrl + "/api/services/app/Book/GetAll?";
+    getAllBook(keyword: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<BookDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Book/GetAllBook?";
         if (keyword === null)
             throw new Error("The parameter 'keyword' cannot be null.");
         else if (keyword !== undefined)
@@ -544,11 +544,11 @@ export class BookServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAll(response_);
+            return this.processGetAllBook(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAll(response_ as any);
+                    return this.processGetAllBook(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<BookDtoPagedResultDto>;
                 }
@@ -557,7 +557,7 @@ export class BookServiceProxy {
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<BookDtoPagedResultDto> {
+    protected processGetAllBook(response: HttpResponseBase): Observable<BookDtoPagedResultDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -638,70 +638,11 @@ export class BookServiceProxy {
     }
 
     /**
-     * @param bookTitle (optional) 
-     * @param bookPublisher (optional) 
-     * @param authorId (optional) 
-     * @param author_Name (optional) 
-     * @param author_Id (optional) 
-     * @param isBorrowed (optional) 
-     * @param bookCategoryId (optional) 
-     * @param bookCategory_Name (optional) 
-     * @param bookCategory_DepartmentId (optional) 
-     * @param bookCategory_Department_Id (optional) 
-     * @param bookCategory_Id (optional) 
      * @param id (optional) 
      * @return Success
      */
-    getUpdateIsBorrowed(bookTitle: string | undefined, bookPublisher: string | undefined, authorId: number | undefined, author_Name: string | undefined, author_Id: number | undefined, isBorrowed: boolean | undefined, bookCategoryId: number | undefined, bookCategory_Name: string | undefined, bookCategory_DepartmentId: number | undefined, bookCategory_Department_Name: string, bookCategory_Department_Id: number | undefined, bookCategory_Id: number | undefined, id: number | undefined): Observable<BookDto> {
-        let url_ = this.baseUrl + "/api/services/app/Book/GetUpdateIsBorrowed?";
-        if (bookTitle === null)
-            throw new Error("The parameter 'bookTitle' cannot be null.");
-        else if (bookTitle !== undefined)
-            url_ += "BookTitle=" + encodeURIComponent("" + bookTitle) + "&";
-        if (bookPublisher === null)
-            throw new Error("The parameter 'bookPublisher' cannot be null.");
-        else if (bookPublisher !== undefined)
-            url_ += "BookPublisher=" + encodeURIComponent("" + bookPublisher) + "&";
-        if (authorId === null)
-            throw new Error("The parameter 'authorId' cannot be null.");
-        else if (authorId !== undefined)
-            url_ += "AuthorId=" + encodeURIComponent("" + authorId) + "&";
-        if (author_Name === null)
-            throw new Error("The parameter 'author_Name' cannot be null.");
-        else if (author_Name !== undefined)
-            url_ += "Author.Name=" + encodeURIComponent("" + author_Name) + "&";
-        if (author_Id === null)
-            throw new Error("The parameter 'author_Id' cannot be null.");
-        else if (author_Id !== undefined)
-            url_ += "Author.Id=" + encodeURIComponent("" + author_Id) + "&";
-        if (isBorrowed === null)
-            throw new Error("The parameter 'isBorrowed' cannot be null.");
-        else if (isBorrowed !== undefined)
-            url_ += "IsBorrowed=" + encodeURIComponent("" + isBorrowed) + "&";
-        if (bookCategoryId === null)
-            throw new Error("The parameter 'bookCategoryId' cannot be null.");
-        else if (bookCategoryId !== undefined)
-            url_ += "BookCategoryId=" + encodeURIComponent("" + bookCategoryId) + "&";
-        if (bookCategory_Name === null)
-            throw new Error("The parameter 'bookCategory_Name' cannot be null.");
-        else if (bookCategory_Name !== undefined)
-            url_ += "BookCategory.Name=" + encodeURIComponent("" + bookCategory_Name) + "&";
-        if (bookCategory_DepartmentId === null)
-            throw new Error("The parameter 'bookCategory_DepartmentId' cannot be null.");
-        else if (bookCategory_DepartmentId !== undefined)
-            url_ += "BookCategory.DepartmentId=" + encodeURIComponent("" + bookCategory_DepartmentId) + "&";
-        if (bookCategory_Department_Name === undefined || bookCategory_Department_Name === null)
-            throw new Error("The parameter 'bookCategory_Department_Name' must be defined and cannot be null.");
-        else
-            url_ += "BookCategory.Department.Name=" + encodeURIComponent("" + bookCategory_Department_Name) + "&";
-        if (bookCategory_Department_Id === null)
-            throw new Error("The parameter 'bookCategory_Department_Id' cannot be null.");
-        else if (bookCategory_Department_Id !== undefined)
-            url_ += "BookCategory.Department.Id=" + encodeURIComponent("" + bookCategory_Department_Id) + "&";
-        if (bookCategory_Id === null)
-            throw new Error("The parameter 'bookCategory_Id' cannot be null.");
-        else if (bookCategory_Id !== undefined)
-            url_ += "BookCategory.Id=" + encodeURIComponent("" + bookCategory_Id) + "&";
+    getUpdatedBookTitleFromBorrower(id: number | undefined): Observable<BookDto> {
+        let url_ = this.baseUrl + "/api/services/app/Book/GetUpdatedBookTitleFromBorrower?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
         else if (id !== undefined)
@@ -717,11 +658,11 @@ export class BookServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetUpdateIsBorrowed(response_);
+            return this.processGetUpdatedBookTitleFromBorrower(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetUpdateIsBorrowed(response_ as any);
+                    return this.processGetUpdatedBookTitleFromBorrower(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<BookDto>;
                 }
@@ -730,7 +671,63 @@ export class BookServiceProxy {
         }));
     }
 
-    protected processGetUpdateIsBorrowed(response: HttpResponseBase): Observable<BookDto> {
+    protected processGetUpdatedBookTitleFromBorrower(response: HttpResponseBase): Observable<BookDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BookDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    update(body: BookDto | undefined): Observable<BookDto> {
+        let url_ = this.baseUrl + "/api/services/app/Book/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<BookDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<BookDto>;
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<BookDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -809,6 +806,72 @@ export class BookServiceProxy {
     }
 
     /**
+     * @param keyword (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(keyword: string | undefined, skipCount: number | undefined, maxResultCount: number | undefined): Observable<BookDtoPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/Book/GetAll?";
+        if (keyword === null)
+            throw new Error("The parameter 'keyword' cannot be null.");
+        else if (keyword !== undefined)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<BookDtoPagedResultDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<BookDtoPagedResultDto>;
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<BookDtoPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BookDtoPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param body (optional) 
      * @return Success
      */
@@ -843,62 +906,6 @@ export class BookServiceProxy {
     }
 
     protected processCreate(response: HttpResponseBase): Observable<BookDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BookDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
-    update(body: BookDto | undefined): Observable<BookDto> {
-        let url_ = this.baseUrl + "/api/services/app/Book/Update";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUpdate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<BookDto>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<BookDto>;
-        }));
-    }
-
-    protected processUpdate(response: HttpResponseBase): Observable<BookDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1341,62 +1348,6 @@ export class BorrowerServiceProxy {
     }
 
     /**
-     * @param body (optional) 
-     * @return Success
-     */
-    create(body: CreateBorrowerDto | undefined): Observable<BorrowerDto> {
-        let url_ = this.baseUrl + "/api/services/app/Borrower/Create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreate(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<BorrowerDto>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<BorrowerDto>;
-        }));
-    }
-
-    protected processCreate(response: HttpResponseBase): Observable<BorrowerDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BorrowerDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
-
-    /**
      * @param keyword (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
@@ -1582,40 +1533,40 @@ export class BorrowerServiceProxy {
     }
 
     /**
-     * @param body (optional) 
+     * @param bookId (optional) 
      * @return Success
      */
-    update(body: BorrowerDto | undefined): Observable<BorrowerDto> {
-        let url_ = this.baseUrl + "/api/services/app/Borrower/Update";
+    getUpdatedAllBooksByStudentIdAndIsBorrowed(bookId: number | undefined): Observable<BookDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Borrower/GetUpdatedAllBooksByStudentIdAndIsBorrowed?";
+        if (bookId === null)
+            throw new Error("The parameter 'bookId' cannot be null.");
+        else if (bookId !== undefined)
+            url_ += "bookId=" + encodeURIComponent("" + bookId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
                 "Accept": "text/plain"
             })
         };
 
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdate(response_);
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetUpdatedAllBooksByStudentIdAndIsBorrowed(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdate(response_ as any);
+                    return this.processGetUpdatedAllBooksByStudentIdAndIsBorrowed(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<BorrowerDto>;
+                    return _observableThrow(e) as any as Observable<BookDto[]>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<BorrowerDto>;
+                return _observableThrow(response_) as any as Observable<BookDto[]>;
         }));
     }
 
-    protected processUpdate(response: HttpResponseBase): Observable<BorrowerDto> {
+    protected processGetUpdatedAllBooksByStudentIdAndIsBorrowed(response: HttpResponseBase): Observable<BookDto[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1626,7 +1577,14 @@ export class BorrowerServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = BorrowerDto.fromJS(resultData200);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(BookDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1736,6 +1694,118 @@ export class BorrowerServiceProxy {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: CreateBorrowerDto | undefined): Observable<BorrowerDto> {
+        let url_ = this.baseUrl + "/api/services/app/Borrower/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<BorrowerDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<BorrowerDto>;
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<BorrowerDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BorrowerDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    update(body: BorrowerDto | undefined): Observable<BorrowerDto> {
+        let url_ = this.baseUrl + "/api/services/app/Borrower/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<BorrowerDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<BorrowerDto>;
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<BorrowerDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BorrowerDto.fromJS(resultData200);
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {

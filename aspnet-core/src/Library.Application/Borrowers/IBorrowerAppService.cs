@@ -19,5 +19,6 @@ namespace Library.Borrowers
         Task<BorrowerDto> UpdateAsync(BorrowerDto input);
         Task<BorrowerDto> GetAsync(EntityDto<int> input);
         Task UpdateIsBorrowedIfDeleted(BorrowerDto input);
+        Task<List<BookDto>> GetUpdatedAllBooksByStudentIdAndIsBorrowed(int bookId);
     }
 }

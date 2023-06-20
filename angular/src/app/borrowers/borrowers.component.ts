@@ -5,8 +5,6 @@ import {
   PagedRequestDto,
 } from "@shared/paged-listing-component-base";
 import {
-  BookDto,
-  BookServiceProxy,
   BorrowerDto,
   BorrowerDtoPagedResultDto,
   BorrowerServiceProxy,
