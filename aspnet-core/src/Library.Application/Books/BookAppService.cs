@@ -44,9 +44,8 @@ namespace Library.Books
 
         public async Task<BookDto> GetUpdatedBookTitleFromBorrower(EntityDto<int> input)
         {
-            try
-            {
-                var book = await _repository.GetAsync(input.Id);
+                var book = await GetAsync(input);
+
                 if (book.IsBorrowed == true)
                 {
                     book.IsBorrowed = false;
@@ -56,13 +55,10 @@ namespace Library.Books
                     book.IsBorrowed = true;
                 }
 
-                await _repository.UpdateAsync(book);
+                var updateBookIsBorrowed = await UpdateAsync(book);
+                return updateBookIsBorrowed;
 
-                return base.MapToEntityDto(book);
-            }catch (Exception ex)
-            {
-                throw ex;
-            }
+                
         }
 
         public override Task<BookDto> UpdateAsync(BookDto input)

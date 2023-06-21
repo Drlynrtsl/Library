@@ -54,33 +54,31 @@ export class CreateEditBorrowerModalComponent
       this._borrowerService.get(this.id).subscribe((res) => {
         this.borrower = res;
         this.selectedBook = res.bookId;
+        /* this.books.push(res.book); */
+        /* this.books = [res.book]; */
         this.selectedStudent = res.studentId;
         this.borrower.borrowDate = this.formatDate(res.borrowDate);
         this.borrower.expectedReturnDate = this.formatDate(
           res.expectedReturnDate
-        );       
-      });
-      if (this.id != 0) {
+        );
+
         this._borrowerService
-          .getBorrowWithBookAndStudentUnderBookCategory(this.id)
-          .subscribe((res: BorrowerDto) => {
-            this.borrower.borrowDate = this.formatDate(res.borrowDate);
-            this.borrower.expectedReturnDate = this.formatDate(
-              res.expectedReturnDate
-            );
-            this.books = [res.book];
-            this.students = [res.student];
-            this._borrowerService
           .getAllBooksByStudentId(this.selectedStudent)
-          .subscribe((res:BookDto[]) => {
+          .subscribe((res: BookDto[]) => {
+            this.borrower.bookId;
             this.selectedBook;
-            /* this.borrower.studentId = this.selectedStudent; */
-            this.books = res;
-            /* this.borrower.bookId = this.selectedBook; */
+            res.forEach((x) => this.books.push(x));
           });
-          });        
-      }
+      });
+
+      this._borrowerService
+        .getBorrowWithBookAndStudentUnderBookCategory(this.id)
+        .subscribe((res: BorrowerDto) => {
+          this.books.push(res.book);
+          this.students = [res.student];
+        });
     }
+
     this._studentService.getAllStudents().subscribe((res) => {
       this.students = res;
     });
@@ -117,7 +115,8 @@ export class CreateEditBorrowerModalComponent
 
   save(): void {
     this.saving = true;
-    this.borrower.bookId = this.selectedBook;
+    /* this.borrower.bookId; */
+    /* this.borrower.bookId = this.selectedBook; */
     this.borrower.studentId = this.selectedStudent;
 
     this.borrower.borrowDate = moment.utc(this.borrower.borrowDate);
@@ -130,23 +129,46 @@ export class CreateEditBorrowerModalComponent
     }
 
     if (this.id > 0) {
-      this._borrowerService.update(this.borrower).subscribe(
-        () => {
-              this.notify.info(this.l("SavedSuccessfully"));
-              this.bsModalRef.hide();
-              this.onSave.emit();
-        },
-        () => {
-          this.saving = false;
-        }
-      );
+      if (this.borrower.bookId == this.selectedBook) {
+        this._borrowerService.update(this.borrower).subscribe(
+          () => {
+            this.notify.info(this.l("SavedSuccessfully"));
+            this.bsModalRef.hide();
+            this.onSave.emit();
+          },
+          () => {
+            this.saving = false;
+          }
+        );
+      } else {
+        this._bookService
+          .getUpdatedBookTitleFromBorrower(this.borrower.bookId)
+          .subscribe(() => {
+            this.borrower.bookId = this.selectedBook;
+            this._borrowerService.update(this.borrower).subscribe(
+              () => {
+                this._bookService
+                  .getUpdatedBookTitleFromBorrower(this.borrower.bookId)
+                  .subscribe(() => {
+                    this.notify.info(this.l("SavedSuccessfully"));
+                    this.bsModalRef.hide();
+                    this.onSave.emit();
+                  });
+              },
+              () => {
+                this.saving = false;
+              }
+            );
+          });
+      }
     } else {
+      this.borrower.bookId = this.selectedBook;
       this._borrowerService.create(this.borrower).subscribe(
         () => {
           this.notify.info(this.l("SavedSuccessfully"));
           this.bsModalRef.hide();
           this.onSave.emit();
-      },
+        },
         () => {
           this.saving = false;
         }

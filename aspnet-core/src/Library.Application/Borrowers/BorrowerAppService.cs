@@ -72,21 +72,7 @@ namespace Library.Borrowers
                 .ToListAsync();
 
             return ObjectMapper.Map<List<BookDto>>(books);
-        }
-        public async Task<List<BookDto>> GetUpdatedAllBooksByStudentIdAndIsBorrowed(int bookId)
-        {
-            var student = _studentRepository.GetAll()
-                .Include(x => x.Department)
-                .FirstOrDefault();
-
-            var books = await _bookRepository
-                .GetAllIncluding(x => x.BookCategory, x => x.BookCategory.Department)
-                .Where(x => x.IsBorrowed && x.Id == bookId)
-                .ToListAsync();
-
-            return ObjectMapper.Map<List<BookDto>>(books);
-        }
-       
+        }       
 
         public override Task<BorrowerDto> GetAsync(EntityDto<int> input)
         {
@@ -106,52 +92,48 @@ namespace Library.Borrowers
 
         public override async Task<BorrowerDto> CreateAsync(CreateBorrowerDto input)
         {
-            try
-            {
-                var borrower = ObjectMapper.Map<Borrower>(input);
-                await _repository.InsertAsync(borrower);
+            var borrower = ObjectMapper.Map<Borrower>(input);
+            await _repository.InsertAsync(borrower);
 
-                var book = await _bookRepository.GetAsync(input.BookId);
-                book.IsBorrowed = true;
+            var book = await _bookRepository.GetAsync(input.BookId);
+            book.IsBorrowed = true;
 
-                await _bookRepository.UpdateAsync(book);
+            await _bookRepository.UpdateAsync(book);
 
-                return base.MapToEntityDto(borrower);
-            }
-            catch (Exception e)
-            {
-
-                throw e;
-            }
+            return base.MapToEntityDto(borrower);
         }
 
         public override async Task<BorrowerDto> UpdateAsync(BorrowerDto input)
         {
-            try
+
+            var borrower = ObjectMapper.Map<Borrower>(input);
+            await _repository.UpdateAsync(borrower);
+            //var bookUpdated = await GetAsync(input.Book);
+            
+            var book = await _bookRepository.GetAsync(input.BookId);            
+
+            if(input.ReturnDate.HasValue)
             {
-                var borrower = ObjectMapper.Map<Borrower>(input);
-                await _repository.UpdateAsync(borrower);
-
-                var book = await _bookRepository.GetAsync(input.BookId);
-
-                if (input.ReturnDate.HasValue)
-                {
-                    book.IsBorrowed = true;
-                }
-                else
-                {
-                    book.IsBorrowed = false;
-                }
-
-                await _bookRepository.UpdateAsync(book);
-
-                return base.MapToEntityDto(borrower);
+                book.IsBorrowed=false;
+                
             }
-            catch (Exception e)
-            {
+            //else if (!input.ReturnDate.HasValue)
+            //{
+            //    if (book.IsBorrowed)
+            //    {
+            //        book.IsBorrowed = false;
+            //        await _bookRepository.UpdateAsync(book);
+            //    }
+            //    else
+            //    {
+            //        book.IsBorrowed = true;
+            //        await _bookRepository.UpdateAsync(book);
+            //    }
+            //}
+            await _bookRepository.UpdateAsync(book);
 
-                throw e;
-            }
+
+            return base.MapToEntityDto(borrower);
         }
     }
 }
